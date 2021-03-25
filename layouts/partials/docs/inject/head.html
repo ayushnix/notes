@@ -1,0 +1,13 @@
+<link rel="preload" href="fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Inter-Italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Inter-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/JetBrainsMono-Italic.woff2" as="font" type="font/woff2" crossorigin>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/notes/sw.js', { scope: '/notes/'});
+  });
+}
+</script>
