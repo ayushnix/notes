@@ -1,0 +1,76 @@
+# website basic configuration
+baseURL: https://ayushnix.com/wiki
+languageCode: en-us
+title: wiki
+theme: book
+enableGitInfo: true
+disableKinds:
+  - taxonomy
+  - term
+
+# unsafe renderer needed for mermaid/katex shortcodes
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    endLevel: 3
+    startLevel: 1
+
+params:
+  # (Optional, default light) Sets color theme: light, dark or auto.
+  # Theme 'auto' switches between dark and light modes based on browser/os preferences
+  BookTheme: auto
+
+  # (optional, default true) controls table of contents visibility on right side of pages.
+  # start and end levels can be controlled with markup.tableOfContents setting.
+  # you can also specify this parameter per page in front matter.
+  BookToC: true
+
+  # (optional, default none) set the path to a logo for the book. if the logo is
+  # /static/logo.png then the path would be logo.png
+  # BookLogo: /logo.png
+
+  # (optional, default none) set leaf bundle to render as side menu
+  # when not specified file structure and weights will be used
+  # BookMenuBundle: /menu
+
+  # (optional, default docs) specify root page to render child pages as menu.
+  # page is resoled by .GetPage function: https://gohugo.io/functions/getpage/
+  # for backward compatibility you can set '*' to render all sections to menu. acts same as '/'
+  # BookSection: docs
+
+  # set source repository location.
+  # used for 'Last Modified' and 'Edit this page' links.
+  BookRepo: https://github.com/ayushnix/wiki
+
+  # enable "Edit this page" links for 'doc' page type.
+  # disabled by default. uncomment to enable. requires 'BookRepo' param.
+  # edit path must point to root directory of repo.
+  # BookEditPath: edit/master/exampleSite
+
+  # configure the date format used on the pages
+  # - In git information
+  # - In blog posts
+  # BookDateFormat: "January 2, 2006"
+
+  # (optional, default true) enables search function with flexsearch,
+  # index is built on fly, therefore it might slowdown your website.
+  # configuration for indexing can be adjusted in i18n folder per language.
+  BookSearch: true
+
+  # (optional, default true) enables comments template on pages
+  # by default partals/docs/comments.html includes disqus template
+  # see https://gohugo.io/content-management/comments/#configure-disqus
+  # can be overwritten by same param in page frontmatter
+  BookComments: false
+
+  # /!\ this is an experimental feature, might be removed or changed at any time
+  # (optional, experimental, default false) enables portable links and link checks in markdown pages.
+  # portable links meant to work with text editors and let you write markdown without {{< relref >}} shortcode
+  # theme will print warning if page referenced in markdown does not exists.
+  # BookPortableLinks: false
+
+  # /!\ This is an experimental feature, might be removed or changed at any time
+  # (Optional, experimental, default false) Enables a drop-down menu for translations only if a translation is present.
+  # BookTranslatedOnly: false

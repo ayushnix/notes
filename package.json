@@ -1,0 +1,31 @@
+{
+  "name": "wiki",
+  "version": "1.0.0",
+  "description": "Random Thoughts and Notes by Ayush Agarwal",
+  "main": "index.html",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-shell": "^0.8.0",
+    "workbox-build": "^5.1.4",
+    "medium-zoom": "^1.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayushnix/wiki.git"
+  },
+  "keywords": [
+    "wiki",
+    "notes"
+  ],
+  "author": "Ayush Agarwal",
+  "license": "CC BY-SA 4.0",
+  "bugs": {
+    "url": "https://github.com/ayushnix/wiki/issues"
+  },
+  "homepage": "https://ayushnix.com/wiki"
+}
