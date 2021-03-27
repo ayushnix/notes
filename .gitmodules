@@ -1,4 +1,4 @@
 [submodule "book"]
 	path = themes/book
-	url = git@ghp:ayushnix/hugo-book.git
+	url = git@github.com:ayushnix/hugo-book.git
 	branch = workbox
