@@ -1,7 +1,7 @@
 # website basic configuration
 baseURL: https://ayushnix.com/wiki
 languageCode: en-us
-title: wiki
+title: My Wiki
 theme: book
 enableGitInfo: true
 disableKinds:
