@@ -1,0 +1,39 @@
+# fetch-depth: 0 - fetches data from gitinfo/lastmod
+
+name: publish wiki
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: setup hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+      - name: setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: build the website
+        run: |
+          npm install
+          npm run build
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          allow_empty_commit: true
+          force_orphan: true
