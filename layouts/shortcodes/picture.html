@@ -1,4 +1,4 @@
 <picture{{ with .Get "class" }} class="{{ . }}"{{ end }}>
 <source srcset="{{ .Get "srcset" }}" media="(prefers-color-scheme: dark)">
-<img src="{{ .Get "src" }}">
+<img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}">
 </picture>

@@ -1,13 +1,9 @@
-const gulp = require('gulp');
-const gulpShell = require('gulp-shell');
 const workboxBuild = require('workbox-build');
 
-gulp.task('hugo-build', gulpShell.task(['hugo --minify']));
-
-gulp.task('generate-service-worker', () => {
+const buildSW = () => {
     return workboxBuild.generateSW({
         globDirectory: 'public',
-        globPatterns: ['index.html','404.html','**/*.{css,svg}','fonts/*.woff2'],
+        globPatterns: ['index.html', '404.html', '**/*.{css,svg}', 'fonts/*.woff2'],
         swDest: 'public/sw.js',
         skipWaiting: true,
         clientsClaim: true,
@@ -15,8 +11,7 @@ gulp.task('generate-service-worker', () => {
         globStrict: true,
         inlineWorkboxRuntime: false,
         mode: 'production',
-        runtimeCaching: [
-            {
+        runtimeCaching: [{
                 urlPattern: /\/katex\/fonts\/.*\.(ttf|woff|woff2)$/,
                 handler: 'NetworkOnly',
             },
@@ -62,6 +57,6 @@ gulp.task('generate-service-worker', () => {
             }
         ],
     });
-});
+};
 
-gulp.task('build', gulp.series('hugo-build', 'generate-service-worker'));
+buildSW();
