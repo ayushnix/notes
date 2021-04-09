@@ -4,15 +4,15 @@
   "description": "Random Thoughts and Notes by Ayush Agarwal",
   "main": "index.html",
   "dependencies": {
-    "gulp": "^4.0.2",
-    "gulp-shell": "^0.8.0",
     "medium-zoom": "^1.0.6",
-    "workbox-build": "^5.1.4"
+    "workbox-build": "^5.1.4",
+    "parcel-bundler": "^1.12.5"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp build"
+    "hugom": "hugo --minify",
+    "generatesw": "node generatesw.js",
+    "build": "parcel build static/medzoom.js -d public --out-file medium-zoom.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "notes"
   ],
   "author": "Ayush Agarwal",
-  "license": "CC BY-SA 4.0",
+  "license": "CC-BY-SA-4.0",
   "bugs": {
     "url": "https://github.com/ayushnix/wiki/issues"
   },

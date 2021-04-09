@@ -1,4 +1,5 @@
 <picture{{ with .Get "class" }} class="{{ . }}"{{ end }}>
-<source srcset="{{ .Get "srcset" }}" media="(prefers-color-scheme: dark)">
-<img src="{{ .Get "src" }}">
+<source srcset="{{ .Get "srcset" }}" media="(prefers-color-scheme: dark)" data-zoomable="">
+<source srcset="{{ .Get "srcset" }}" media="(prefers-color-scheme: light)" data-zoomable="">
+<img src="{{ .Get "src" }}" data-zoomable="">
 </picture>
