@@ -1,5 +1,6 @@
 ---
-weight: 2
+weight: 3
 bookFlatSection: true
+bookCollapseSection: true
 title: "DevOps"
 ---
