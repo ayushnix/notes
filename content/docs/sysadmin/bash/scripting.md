@@ -6,19 +6,20 @@ lastmod: 2021-01-03T19:02:52+05:30
 ---
 
 # Introduction
+
 Knowing how to use your shell and being able to write scripts that work across
-different *nix operating systems can be an incredibly important skill. I often
-thought about it as an essential skill that a sysadmin should possess.
+different *nix operating systems can be an incredibly important skill. I've
+often thought about it as an essential skill that a sysadmin should possess.
 However, there are various complications when it comes to using shell scripts
 in production environments.
 
 - bash isn't the standard shell used across all *nix systems. Debian uses
   dash as its `/bin/sh` and Alpine, used widely in containers, uses BusyBox
   which uses its own version of ash. There's `tcsh` used by FreeBSD and
-  `pdksh`, a public domain version of korn shell used by OpenBSD. Needless to
+  `pdksh`, a public domain version of korn shell, used by OpenBSD. Needless to
   say, there are syntactical differences between all of them although scripts
-  written in `/bin/sh` compatible format should probably run reliably across
-  all of these platforms.
+  written in POSIX sh should probably run reliably across all of these
+  platforms.
 - shell scripts do not have robust error handling features and they can't
   handle edge cases you didn't think about. Drew DeVault wrote a [blog
   post](https://drewdevault.com/2020/12/12/Shell-literacy.html) about becoming
@@ -41,7 +42,8 @@ resources out there if you are a complete beginner. This is just a dump of my
 thoughts and notes about bash scripting. I'll also skip stuff which, although
 is a part of bash, isn't and/or shouldn't be used in shell scripting.
 
-## Before Getting Started
+## Linter, Formatter, and Unit Testing
+
 Before we get started with bash shell scripting, it's best if we use the
 [shellcheck](https://github.com/koalaman/shellcheck) linter to learn from our
 mistakes.
@@ -58,7 +60,7 @@ The exit status of the pipeline is the exit status of the last command in the
 pipeline unless `set -o pipefail` is enabled in which case the exit status is
 that of the command which fails first.
 
-we might wanna use `set -o noclobber` to prevent accidental overwriting of
+We might wanna use `set -o noclobber` to prevent accidental overwriting of
 files. It'd be better to adopt the practice of creating files separately
 instead of using `>` to create files as well. However, this setting can be
 bypassed using `>|` but it might be better to just ignore this option unless we
@@ -96,18 +98,20 @@ Prefer `"${var}"` over `"$var"`.
 ## Redirections
 The following table depicts the effect of redirection and piping to a file.
 
-| syntax          | terminal stdout | terminal stderr | file stdout | file stderr | effect on file |
-|-----------------|-----------------|-----------------|-------------|-------------|----------------|
-| `>`             | no              | yes             | yes         | no          | overwrite      |
-| `>>`            | no              | yes             | yes         | no          | append         |
-| `2>`            | yes             | no              | no          | yes         | overwrite      |
-| `2>>`           | yes             | no              | no          | yes         | append         |
-| `> file 2>&1`   | no              | no              | yes         | yes         | overwrite      |
-| `>> file 2>&1`  | no              | no              | yes         | yes         | append         |
-| `| tee`         | yes             | yes             | yes         | no          | overwrite      |
-| `| tee -a`      | yes             | yes             | yes         | no          | append         |
-| `2>&1 | tee`    | yes             | yes             | yes         | yes         | overwrite      |
-| `2>&1 | tee -a` | yes             | yes             | yes         | yes         | append         |
+`stdin` has the file descriptor `0`.
+
+| syntax           | terminal stdout | terminal stderr | file stdout | file stderr | effect on file |
+|------------------|-----------------|-----------------|-------------|-------------|----------------|
+| `>`              | no              | yes             | yes         | no          | overwrite      |
+| `>>`             | no              | yes             | yes         | no          | append         |
+| `2>`             | yes             | no              | no          | yes         | overwrite      |
+| `2>>`            | yes             | no              | no          | yes         | append         |
+| `> file 2>&1`    | no              | no              | yes         | yes         | overwrite      |
+| `>> file 2>&1`   | no              | no              | yes         | yes         | append         |
+| `\| tee`         | yes             | yes             | yes         | no          | overwrite      |
+| `\| tee -a`      | yes             | yes             | yes         | no          | append         |
+| `2>&1 \| tee`    | yes             | yes             | yes         | yes         | overwrite      |
+| `2>&1 \| tee -a` | yes             | yes             | yes         | yes         | append         |
 
 You might wonder about the difference between `> file 2>&1` and `2>&1 > file`.
 In the first case, you won't get any output on the terminal and both stdout (1)
@@ -124,7 +128,12 @@ point stderr to wherever stdout is pointing to (which is `file`). Similarly,
 (which is the terminal at this point) and then point stdout to `file`. stderr
 will still keep pointing to the terminal though.
 
+[Here's](https://catonmat.net/ftp/bash-redirections-cheat-sheet.pdf) a
+cheatsheet that'll help as well. A series[^3] of blog posts have been written
+as well.
+
 ## Here Documents
+
 You might've come across segments of code such as
 
 ```bash
@@ -292,6 +301,7 @@ A list of common tests you can do inside `[[ ... ]]` are
 
 ```bash
 FILE="/home/triton/.bashrc"
+REGEX='\/[a-z]*\/[a-z]*'
 A=1
 B=2
 
@@ -320,6 +330,19 @@ if [[ "${FILE}" == "\/[a-z]*" ]]; then
 else
   printf '%s\n' 'does not match'
 fi
+
+# it's better to use regexes and specifying the regexes in a separate variable
+
+# the in-built BASH_REMATCH array variable records the part of the string that
+# matched the regex
+
+if [[ "${FILE}" =~ $REGEX ]]; then
+  printf '%s\n' 'matches'
+else
+  printf '%s\n' 'does not match'
+fi
+
+echo "${BASH_REMATCH[@]}"
 ```
 
 
@@ -338,4 +361,8 @@ I know I don't but not everyone is averse to using white spaces in file and
 directory names, especially people who come from a Windows background.
 
 [^2]: You can still write sh compatible scripts while using bash if you use
-  `set -o posix`
+`set -o posix`. Or, just use `#!/bin/sh`.
+
+[^3]: [Part 1](https://catonmat.net/bash-one-liners-explained-part-one), [Part
+2](https://catonmat.net/bash-one-liners-explained-part-two), and [Part
+3](https://catonmat.net/bash-one-liners-explained-part-three).

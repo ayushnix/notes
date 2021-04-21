@@ -4,7 +4,7 @@ date: 2021-01-17T22:23:36+05:30
 lastmod: 2021-01-17T22:23:36+05:30
 ---
 
-# TMUX Basics
+## Basics
 
 To find out the default value of an option, use the command
 
@@ -70,3 +70,6 @@ You can close the current tab (and all of its panes) by pressing `C-s
 
 You can temporarily maximize a pane using `C-s z` and then restore the
 layout with the same key.
+
+You can move tabs by using `C-s .` and specifying the new index number.
+Existing index numbers can't be specific though.
