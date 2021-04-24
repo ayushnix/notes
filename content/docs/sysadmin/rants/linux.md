@@ -132,7 +132,9 @@ desktop, this is my attempt to do so.
 
 ## Fixed After Considerable Distress
 
-- when I upgraded to Firefox 87, I experienced intense flickering on pop menus
+- when I upgraded to Firefox 87, I experienced [intense
+  flickering](https://bugzilla.mozilla.org/show_bug.cgi?id=1694967) on pop
+  menus
 
   Although this issue has been fixed in sway version 1.6, I had to downgrade
   and keep Firefox at version 86 for almost a month after version 87 was
