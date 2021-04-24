@@ -10,6 +10,11 @@ now, or have faced in the past, when using the Linux, or GNU/Linux if you will,
 on the desktop. I've been using Linux on my desktop exclusively since 2015
 instead of Windows 10 or MacOS.
 
+For people out there who're pedantic and radicalized enough to miss the point
+of the article, this isn't just about the Linux kernel itself but about using
+Linux ecosystem on a desktop. I don't think you can use the Linux kernel itself
+on your desktop to do anything meaningful.
+
 People on Reddit and other online communities see Linux as this perfect panacea
 of user freedom, customization, and power. The shilling never stops and
 unsuspecting users are led to believe that Microsoft and Apple are sitting on
