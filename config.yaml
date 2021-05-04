@@ -44,6 +44,13 @@ params:
   # used for 'Last Modified' and 'Edit this page' links.
   BookRepo: https://github.com/ayushnix/wiki
 
+  # (Optional, default 'commit') Specifies commit portion of the link to the page's last modified
+  # commit hash for 'doc' page type.
+  # Requires 'BookRepo' param.
+  # Value used to construct a URL consisting of BookRepo/BookCommitPath/<commit-hash>
+  # Github uses 'commit', Bitbucket uses 'commits'
+  # BookCommitPath: commit
+
   # enable "Edit this page" links for 'doc' page type.
   # disabled by default. uncomment to enable. requires 'BookRepo' param.
   # edit path must point to root directory of repo.
