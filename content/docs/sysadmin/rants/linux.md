@@ -110,10 +110,12 @@ desktop, this is my attempt to do so.
 
   The markdown syntax highlighting library from plasticboy is abandoned and
   full of bugs. I tried using vim-pandoc-syntax along with its syntax package
-  and that turned out to similarly buggy and extremely slow.
+  and that turned out to be similarly buggy and extremely slow.
 
   [Here's](https://asciinema.org/a/uMlSQOG67IxQFyTHx1zHSTzrK) a preview of what
-  I'm talking about.
+  I'm talking about when using vim-pandoc. [The same
+  issue](https://asciinema.org/a/51LqtMV3ZNl64EGxI2Q5eJFSL) happens with
+  vim-markdown.
 
   When people rave about vim, they should mention that if you want to do common
   stuff like write documentation using markdown, you'll be disappointed.
@@ -129,6 +131,21 @@ desktop, this is my attempt to do so.
 
   This is incredibly annoying. Sometimes I end up clicking something
   which I didn’t intend to.
+
+- apparently, some websites will tell you that the NERDTree plugin made for
+  (neo)vim is bloat and you should just use the built in `netrw` instead. I
+  guess they fail to mention bugs like
+  [this](https://github.com/tpope/vim-vinegar/issues/13). Hey, for all I know,
+  NERDTree is indeed bloat and shitty.
+
+- [17th May 2021] Since the past few weeks, my Thinkpad E495 with AMD 3500U CPU
+  keeps [crashing](https://bugzilla.kernel.org/show_bug.cgi?id=201957) in the
+  middle of my work and I have to do hard reboots. This is most probably an
+  [AMDGPU issue](https://bbs.archlinux.org/viewtopic.php?id=266358), going back
+  all the way to 2018 or maybe earlier. But hey, I'm not supposed to complain.
+  What's more, if you do complain, people will just say "it works like a charm
+  for me" and try to make it either your fault or say that your hardware is
+  faulty.
 
 ## Fixed After Considerable Distress
 
