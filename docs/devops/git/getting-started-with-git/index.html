@@ -1,0 +1,281 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.83.1"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Instead of rote learning and hoping not to mess up when executing git commands, it&rsquo;s better to understand what&rsquo;s going on under the hood and how git actually works. This guide isn&rsquo;t meant to be a traditional git 101 guide. We&rsquo;ll cover basic terminology briefly but focus solely on git internals because, in my opinion, that&rsquo;s how one should get started with git.
+Introduction #  There are several insightful one line definitions of what a git repository is but we&rsquo;ll start with this one."><meta name=theme-color content="#343A40"><meta name=mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-capable content="yes"><meta name=application-name content="Notes"><meta name=apple-mobile-web-app-title content="Notes"><meta name=theme-color content="#343A40"><meta name=msapplication-navbutton-color content="#E9ECEF"><meta name=apple-mobile-web-app-status-bar-style content="#343A40"><meta name=msapplication-starturl content="/index.html"><meta property="og:title" content="Getting Started With Git"><meta property="og:description" content="Instead of rote learning and hoping not to mess up when executing git commands, it&rsquo;s better to understand what&rsquo;s going on under the hood and how git actually works. This guide isn&rsquo;t meant to be a traditional git 101 guide. We&rsquo;ll cover basic terminology briefly but focus solely on git internals because, in my opinion, that&rsquo;s how one should get started with git.
+Introduction #  There are several insightful one line definitions of what a git repository is but we&rsquo;ll start with this one."><meta property="og:type" content="article"><meta property="og:url" content="https://ayushnix.com/wiki/docs/devops/git/getting-started-with-git/"><meta property="article:section" content="docs"><meta property="article:published_time" content="2020-12-06T20:41:48+05:30"><meta property="article:modified_time" content="2021-03-28T01:33:55+05:30"><title>Getting Started With Git | My Wiki</title><link rel=manifest href=/wiki/manifest.json><link rel=icon href=/wiki/favicon-48.png type=image/x-icon><link rel=icon href=/wiki/favicon-96.png type=image/x-icon><link rel=icon href=/wiki/favicon-144.png type=image/x-icon><link rel=icon href=/wiki/favicon-192.png type=image/x-icon><link rel=icon href=/wiki/favicon-512.png type=image/x-icon><link rel=apple-touch-icon href=/wiki/favicon-48.png><link rel=apple-touch-icon href=/wiki/favicon-96.png><link rel=apple-touch-icon href=/wiki/favicon-144.png><link rel=apple-touch-icon href=/wiki/favicon-192.png><link rel=apple-touch-icon href=/wiki/favicon-512.png><link rel=stylesheet href=/wiki/book.min.121a372e4338a04ef8f8346db400e0ce5f7956c9b0011e356bc52d6c9acd5bca.css integrity="sha256-Eho3LkM4oE74+DRttADgzl95VsmwAR41a8UtbJrNW8o="><script defer src=/wiki/en.search.min.c35720179d7c63b89dcc39d22a2a75bf4a15367ce19a03bb011d371826f32aae.js integrity="sha256-w1cgF518Y7idzDnSKip1v0oVNnzhmgO7AR03GCbzKq4="></script><link rel=preload href=fonts/Inter-Regular.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/Inter-Italic.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/Inter-Bold.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/JetBrainsMono-Italic.woff2 as=font type=font/woff2 crossorigin><script>'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('/wiki/sw.js',{scope:'/wiki/'})})</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/wiki><span>My Wiki</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li class=book-section-flat><input type=checkbox id=section-6b7748b591138f4b06171f4f14985eeb class=toggle>
+<label for=section-6b7748b591138f4b06171f4f14985eeb class="flex justify-between"><a>Linux System Administration</a></label><ul><li><input type=checkbox id=section-7047c3efaecc121ed0634f6aafd5aa5a class=toggle>
+<label for=section-7047c3efaecc121ed0634f6aafd5aa5a class="flex justify-between"><a>Shell</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/shell/scripting/>Shell Scripting</a></li></ul></li><li><input type=checkbox id=section-bec2b42ecb57ffbe452c484da0a12784 class=toggle>
+<label for=section-bec2b42ecb57ffbe452c484da0a12784 class="flex justify-between"><a>Tools</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/tools/tmux/>tmux</a></li></ul></li><li><input type=checkbox id=section-ed810691b7f96ac491f764b798366e7e class=toggle>
+<label for=section-ed810691b7f96ac491f764b798366e7e class="flex justify-between"><a>Rants</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/rants/linux/>Linux Desktop Is a Shit Show</a></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-402b3ea0ff87c091885807d21f799220 class=toggle>
+<label for=section-402b3ea0ff87c091885807d21f799220 class="flex justify-between"><a>Networking</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/networking/how-does-dns-work/>How Does DNS Work?</a></li></ul></li><li class=book-section-flat><input type=checkbox id=section-2af6a70294eb0b54b31a050af16e50d4 class=toggle checked>
+<label for=section-2af6a70294eb0b54b31a050af16e50d4 class="flex justify-between"><a>DevOps</a></label><ul><li><input type=checkbox id=section-a42f10b87ea0abe926d6f43be6a257cb class=toggle checked>
+<label for=section-a42f10b87ea0abe926d6f43be6a257cb class="flex justify-between"><a>Git</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/devops/git/getting-started-with-git/ class=active>Getting Started With Git</a></li></ul></li></ul></li></ul></nav><script>(function(){var a=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/wiki/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Getting Started With Git</strong>
+<label for=toc-control><img src=/wiki/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#git-objects>Git Objects</a></li><li><a href=#git-references>Git References</a></li></ul></li><li><a href=#visualizing-git>Visualizing Git</a></li><li><a href=#questions>Questions</a></li><li><a href=#references>References</a></li></ul></nav></aside></header><article class=markdown><p>Instead of rote learning and hoping not to mess up when executing git commands,
+it&rsquo;s better to understand what&rsquo;s going on under the hood and how git actually
+works. This guide isn&rsquo;t meant to be a traditional git 101 guide. We&rsquo;ll cover
+basic terminology briefly but focus solely on git internals because, in my
+opinion, that&rsquo;s how one should get started with git.</p><h1 id=introduction>Introduction
+<a class=anchor href=#introduction>#</a></h1><p>There are several insightful one line definitions of what a git repository is
+but we&rsquo;ll start with this one.</p><blockquote><p>A git repository is a collection of objects and names for those objects
+called references or, simply, refs.</p></blockquote><p>Let&rsquo;s see this for ourselves.</p><pre><code>$ git init repo
+$ cd repo/
+$ tree .git/
+.git/
+├── branches
+├── HEAD
+├── objects
+│   ├── info
+│   └── pack
+└── refs
+    ├── heads
+    └── tags
+</code></pre><p>For now, we are concerned with the <code>objects/</code> and <code>refs/</code> directories inside
+<code>.git/</code>. Yes, we&rsquo;ve omitted some output from the <code>tree</code> command to focus on
+what&rsquo;s important.</p><p>We usually deal with git using its high level porcelain commands rather than
+its low level plumbing commands. We&rsquo;ll use the plumbing commands to do a basic
+operation in git.</p><h2 id=git-objects>Git Objects
+<a class=anchor href=#git-objects>#</a></h2><p>Let&rsquo;s start by adding something to a git repo.</p><pre><code>$ echo &quot;git internals&quot; | git hash-object -w --stdin
+613b11344587e365a3e20af88e29fbaea95cd458
+$ tree .git/objects/
+.git/objects/
+├── 61
+│   └── 3b11344587e365a3e20af88e29fbaea95cd458
+├── info
+└── pack
+</code></pre><p>Notice that we didn&rsquo;t even use a file to store content in git, we just <code>echo</code>ed
+content into the standard input which is received by the <code>git hash-object</code>
+command which then computes the hexadecimal sha1 hash of the content passed via
+stdin and stores it in the objects folder.</p><p>Oh, if you try to use the <code>sha1sum</code> command on the same input, you won&rsquo;t get
+the same result. Git appends some meta data about the content that it stores in
+its <code>objects/</code> <em>key-value store</em>. You&rsquo;ll need to prefix the type of the object,
+its size, and a NULL byte to get the same result. You can get the type and size
+of the object you just stored in the git repo using the <code>git cat-file</code> command.</p><pre><code>$ git cat-file -t 613b11
+blob
+$ git cat-file -s 613b11
+14
+$ echo -e &quot;blob 14\0git internals&quot; | sha1sum | tr -d '[:blank:]' | tr -d '-'
+613b11344587e365a3e20af88e29fbaea95cd458
+</code></pre><p>This brings us to the fundamental object used by git to store data — <strong>blobs</strong>.
+Git stores the contents of files in objects called blobs, binary large objects.
+The difference between a blob and a file is that a file also contains meta data.
+For example, a file “remembers” when it was created, so if you move that file
+into another directory, its creation time remains the same. A blob, on the
+other hand, is just content — binary streams of data. A blob doesn&rsquo;t register
+its creation date, its name, or anything but its content.</p><p>As seen above, we can compute the sha1 hash of the blob that the git computes
+using the format <code>"blob ${#CONTENTS}\0$CONTENTS"</code>.</p><p>What now?</p><pre><code>$ git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use &quot;git add&quot; to track)
+</code></pre><p>Git doesn&rsquo;t know anything about the object we just created because there&rsquo;s
+nothing inside our <strong>working directory</strong>, the directory where your actual
+content should be. The blob we created is also not present in the <strong>staging
+area</strong> aka <strong>index</strong> yet. Let&rsquo;s add it to the staging area.</p><pre><code>$ git update-index --add --cacheinfo 100644,613b11344587e365a3e20af88e29fbaea95cd458,git-internals.txt
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+	new file:   git-internals.txt
+
+Changes not staged for commit:
+  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+	deleted:    git-internals.txt
+</code></pre><p>This is interesting. We&rsquo;ve added the file <code>git-internals.txt</code> into the staging
+area but since that file isn&rsquo;t present in the working directory, git thinks
+that it has been deleted. However, in reality, that file has never been there
+in the working directory to begin with. We&rsquo;ll come back to this issue later so
+just forget about it for now. After all, we&rsquo;re dealing with the git repository
+here, not its working directory and since a git repository is a <em>content
+addressable</em> storage and a key-value store, if we have the required objects,
+we can get the required files.</p><p>Remember that we said that blobs are simply content and nothing else? Git
+stores the meta data of blobs into another fundamental storage unit called a
+<strong>tree</strong> object.</p><pre><code>$ git write-tree
+c19878e8ba21805cc916151c15ba14f9e83d2cd9
+$ git cat-file -t c19878
+tree
+$ git cat-file -p c19878
+100644 blob 613b11344587e365a3e20af88e29fbaea95cd458	git-internals.txt
+</code></pre><p>If you read the man page of <code>git write-tree</code>, you&rsquo;ll see that it mentions that
+it &ldquo;creates a tree object using the current index&rdquo;. The tree object stores the
+meta data of blobs and other trees. This meta data includes the file mode, type
+of object, the sha1 hash of the object, and the file or directory name.</p><p>If you notice the contents of the <code>.git/</code> directory now, it&rsquo;ll be something
+like this:</p><pre><code>$ tree .git/objects/
+.git/objects/
+├── 61
+│   └── 3b11344587e365a3e20af88e29fbaea95cd458
+├── c1
+│   └── 9878e8ba21805cc916151c15ba14f9e83d2cd9
+├── info
+└── pack
+</code></pre><p>The <code>objects/</code> directory now contains another entry for the tree object. At
+this point, the output of <code>git status</code> will remain unchanged.</p><p>Let&rsquo;s go ahead and create another fundamental storage unit, the <strong>commit</strong>
+object.</p><pre><code>$ git commit-tree -m &quot;first commit&quot; c19878
+cc219e7bb9a8275759ba1bfd7e4510bc2e6ff1d1
+$ tree .git/objects/
+.git/objects/
+├── 61
+│   └── 3b11344587e365a3e20af88e29fbaea95cd458
+├── c1
+│   └── 9878e8ba21805cc916151c15ba14f9e83d2cd9
+├── cc
+│   └── 219e7bb9a8275759ba1bfd7e4510bc2e6ff1d1
+├── info
+└── pack
+$ git cat-file -t cc219e
+commit
+$ git cat-file -p cc219e
+tree c19878e8ba21805cc916151c15ba14f9e83d2cd9
+author Ayush Agarwal &lt;email@email.com&gt; 1608903575 +0530
+committer Ayush Agarwal &lt;email@email.com&gt; 1608903575 +0530
+
+first commit
+</code></pre><p>As shown in the output of the <code>git cat-file</code> command, the commit object stores
+the meta data of the tree object, the author, the committer, the time at which
+the commit was done, and the commit message. Since this is the first commit in
+our repository, this commit object doesn&rsquo;t point to a parent commit object yet.</p><p>While a tree represents a particular directory state of the working directory,
+a commit represents that state in &ldquo;time&rdquo;, and explains how to get there. Think
+of a commit object as a snapshot of your working directory at a point in time.
+When we use the porcelain commands of git, we usually interact with commit
+objects and their sha1 hashes.</p><p>You might notice something strange though.</p><pre><code>$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+	new file:   git-internals.txt
+
+Changes not staged for commit:
+  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+	deleted:    git-internals.txt
+</code></pre><p><code>git status</code> still doesn&rsquo;t think that we&rsquo;ve committed anything yet. There&rsquo;s
+also the issue of the missing file in our working directory which git thinks
+has been deleted.</p><p>We&rsquo;ve finally arrived at the <code>refs/</code> folder.</p><h2 id=git-references>Git References
+<a class=anchor href=#git-references>#</a></h2><p>Remember that we said that a git repository is a key-value store? Well, the
+store is the <code>.git/objects/</code> directory and the keys are in the <code>.git/refs/</code>
+directory. In git terminology, values are objects and <em>references</em> are keys.
+References can be anything from a local branch, a remote branch, an immutable
+tag, and a file called HEAD which stores a <em>symbolic reference</em> (reference to
+another reference) unless you&rsquo;re in a detached HEAD state and HEAD then
+contains a sha1 hash as its reference. This also shows that the sha1 commit
+hashes can themselves be used as references.</p><p>By default, a git repository starts with a local branch called master. Let&rsquo;s
+see what the <code>.git/HEAD</code> file contains.</p><pre><code>$ cat .git/HEAD
+ref: refs/heads/master
+</code></pre><p>The <code>.git/HEAD</code> file just contains a symbolic reference to the master branch.
+The location of the master branch should be familiar - it&rsquo;s inside the
+<code>.git/refs/heads/</code> folder. All we need is a file called <code>master</code> which points
+to the sha1 hash of the commit object that we made a few minutes ago.</p><pre><code>$ echo &quot;cc219e7bb9a8275759ba1bfd7e4510bc2e6ff1d1&quot; &gt; .git/refs/heads/master
+</code></pre><p>Rather than manually adding the sha1 hash of the commit object, we can also use
+the <code>git update-ref</code> command to change the value of <code>.git/refs/heads/master</code> in
+a safer manner.</p><pre><code>$ git update-ref refs/heads/master cc219e
+</code></pre><p>Finally, we&rsquo;ve successfully made a commit object.</p><pre><code>$ git status
+On branch master
+Changes not staged for commit:
+  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+	deleted:    git-internals.txt
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+$ git log
+commit cc219e7bb9a8275759ba1bfd7e4510bc2e6ff1d1 (HEAD -&gt; master)
+Author: Ayush Agarwal &lt;email@email.com&gt;
+Date:   Fri Dec 25 19:09:35 2020 +0530
+
+    first commit
+</code></pre><p>To get a clean <code>git status</code> output, we&rsquo;ll add the <code>git-internals.txt</code> file by
+getting it from git to demonstrate that a git repository ensures the data
+integrity of your working directory using commit objects.</p><pre><code>$ git checkout git-internals.txt
+</code></pre><p>This command retrieves the file <code>git-internals.txt</code> from the staging area and
+writes it in the working directory. We can write a specific commit object
+hash before the file name to checkout the version of the file in that commit
+object.</p><p><code>git status</code> is now finally clean and shows us the expected output.</p><pre><code>$ git status
+On branch master
+nothing to commit, working tree clean
+</code></pre><p>Just for the sake of reference (pun not intended), we would&rsquo;ve used the
+following porcelain commands to achieve the same result.</p><pre><code>$ git init repo
+$ cd repo/
+$ echo &quot;git internals&quot; &gt; git-internals.txt
+$ git add git-internals.txt
+$ git commit -m &quot;first commit&quot;
+</code></pre><p>The <code>git add</code> command adds the <code>git-internals.txt</code> file to the staging area and
+creates the blob object and adds it to the <code>.git/objects/</code> folder. The <code>git commit</code> command creates a tree object, points it to the blob object, creates a
+commit object which points to the tree object it just created, and updates the
+<code>.git/refs/heads/master</code> file with the sha1 hash of the commit object it
+creates.</p><p>This is it. You now know the basics of how a git repo actually works under the
+hood. However, we can still dive in a bit more.</p><h1 id=visualizing-git>Visualizing Git
+<a class=anchor href=#visualizing-git>#</a></h1><p>Let&rsquo;s create another file and another commit object.</p><pre><code>$ echo &quot;git internals v2&quot; &gt; git-internals-v2.txt
+$ git add git-internals-v2.txt
+$ git commit -m &quot;second commit&quot;
+[master 11e5833] second commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 git-internals-v2.txt
+$ git log --oneline --decorate --graph --all
+* 11e5833 (HEAD -&gt; master) second commit
+* cc219e7 first commit
+</code></pre><p>In simple visual terms, all we&rsquo;ve done is create this <em>directed acyclic graph</em>:</p><picture><source srcset=/wiki/images/initial-commits-dark.png media="(prefers-color-scheme: dark)"><img src=/wiki/images/initial-commits-light.png alt></picture><p>However, let&rsquo;s see what our repo looks like when we represent all the git
+objects and references.</p><picture><source srcset=/wiki/images/git-repo-dark.png media="(prefers-color-scheme: dark)"><img src=/wiki/images/git-repo-light.png alt></picture><p>It should be clear from this diagram that branches are just references that are
+pointers to commit objects. This pointer moves automatically throughout the
+graph as you commit more objects and perform other operations.</p><pre><code>$ git checkout -b test
+$ git log --oneline --decorate --graph --all
+* 11e5833 (HEAD -&gt; test, master) second commit
+* cc219e7 first commit
+$ echo &quot;branches&quot; &gt;&gt; git-internals.txt
+$ git commit -am &quot;third commit&quot;
+[test c4691ec] third commit
+ 1 file changed, 1 insertion(+)
+$ git log --oneline --decorate --graph --all
+* c4691ec (HEAD -&gt; test) third commit
+* 11e5833 (master) second commit
+* cc219e7 first commit
+</code></pre><p>Now, check the contents of the <code>.git/refs</code> directory.</p><pre><code>$ tree .git/refs/
+.git/refs/
+├── heads
+│   ├── master
+│   └── test
+└── tags
+$ cat .git/refs/heads/test
+c4691ec4ee1a3c9fa257cfac16192dbc022c8b9a
+</code></pre><p>Where does <code>HEAD</code> point to?</p><pre><code>$ cat .git/HEAD
+ref: refs/heads/test
+</code></pre><p>As we can see, right now, <code>HEAD</code> is symbolic reference to the <code>test</code> branch.</p><h1 id=questions>Questions
+<a class=anchor href=#questions>#</a></h1><p>Here are some questions that you might have come up with while reading this
+article:</p><ul><li><p>Why does git use a tree object? Couldn&rsquo;t we store the meta data stored by the
+tree object in the commit object?</p><p>One of the reasons that git uses tree objects is that they help in preserving
+the working directory structure. Tree objects can store other tree objects
+which basically represent directories and subdirectories in a working
+directory. Tree objects represent a snapshot of the working directory at a
+point in time when a commit object is made.</p><p>Another reason is that different commits can have the same tree objects. If
+you followed along with the commands in this guide verbatim, your git repo
+would have the same (the sha1 hashes would be identical) blob and tree object
+as I did. However, your commit object sha1 hash will be different than mine
+because of different meta data like the name and email of the author and
+committer. In case git encounters the same tree object in different commits
+in a single repository, it won&rsquo;t create new blob and tree objects and reuse
+the ones we already have which saves space and increases efficiency.</p></li><li><p>Why does git use the first two characters of the 40-digit hash of git objects
+as directory names and the remaining 38-digits as the file name of the object
+itself?</p><p>The layout of subdirectories in <code>.git/objects/</code> is in the form of
+<code>[0-9a-f][0-9a-f]/[0-9a-f]+</code> which means that there can be 256 subdirectories
+in <code>.git/objects/</code>. Some file systems like FAT32 can have only 65,536 files in
+a directory but, technically, there can be 2^60 sha1 hashes. ext2 has
+performance issues post 10k files in a directory. ext4 doesn&rsquo;t any such
+limits but it&rsquo;s still limited by the number of inodes it can have.</p><p>In essence, this directory structure is the result of optimization keeping in
+mind the performance limitations of file systems.</p></li></ul><h1 id=references>References
+<a class=anchor href=#references>#</a></h1><p>Here are some resources that might help you get started with and understand
+git. This includes comprehensive references as well. References specific to a
+certain topic will be included elsewhere.</p><ul><li><a href=http://think-like-a-git.net/>Think Like a Git</a></li><li><a href=https://jwiegley.github.io/git-from-the-bottom-up/>Git From The Bottom Up</a></li><li><a href=https://codewords.recurse.com/issues/two/git-from-the-inside-out>Git From The Inside Out</a></li><li><a href=https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain>Chapter 10 of the Pro Git Book</a></li></ul><p>Here are some videos that use git internals to explain how git works.<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p><ul><li><a href="https://www.youtube.com/watch?v=MYP56QJpDr4">Git From the Bits Up</a></li><li><a href="https://www.youtube.com/watch?v=Y2Msq90ZknI">Dissecting Git Guts</a></li><li><a href="https://www.youtube.com/watch?v=ig5E8CcdM9g">Advanced Git: Graphs, Hashes, and Compression, Oh My!</a></li></ul><p>Visualizing a git repository and its graph can become easier using:</p><ul><li><a href=https://git-school.github.io/visualizing-git/#free-remote>this</a> tool</li><li><a href=https://learngitbranching.js.org/>this</a> tool which can help you visualize
+various operations on a git repository</li><li><a href=https://github.com/jubobs/gitdags/>gitDAGs</a> LaTeX package might come in
+handy to draw git graphs. There are instructions on how to install it
+<a href=https://chrisfreeman.github.io/gitdags_install.html>here</a>. Yeah, I know,
+LaTeX. But unfortunately, I haven&rsquo;t found anything that looks better than
+this yet. Mermaid support for git graphs is experimental and looks shabby as
+of Dec 2020. Please let me know if you find something better.</li><li>you can use software like <a href=https://gitlab.gnome.org/GNOME/gitg>gitg</a> and the
+<a href="https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph">gitgraph</a>
+vscode extension to view pretty graphs of your repos.</li></ul><p>These resources might help you as well. I haven&rsquo;t completed studying them myself though.</p><ul><li><a href=https://github.com/pluralsight/git-internals-pdf/>Git Internals by Scott Chacon</a></li><li><a href=https://www.freecodecamp.org/news/git-internals-objects-branches-create-repo/>A Visual Guide to Git Internals</a></li><li><a href=https://www.aosabook.org/en/git.html>The chapter on Git in the AOSA book</a></li><li><a href=http://www-cs-students.stanford.edu/~blynn/gitmagic/ch01.html>Git Magic</a></li><li><a href=https://maryrosecook.com/blog/post/git-from-the-inside-out>Git From the Inside Out</a></li><li><a href=https://www.oreilly.com/library/view/version-control-with/9781449345037/ch04.html>Chapter 4. Basic Git Concepts</a></li></ul><section class=footnotes role=doc-endnotes><hr><ol><li id=fn:1 role=doc-endnote><p>If you like these videos, consider saving them off-line. In my opinion, YouTube cannot
+be relied upon for data availability.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></section></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/ayushnix/wiki/commit/28573952015084cdbb1eb9e45a7a6f56262ba199 title="Last modified by Ayush Agarwal | March 27, 2021" target=_blank rel=noopener><img src=/wiki/svg/calendar.svg class=book-icon alt=Calendar>
+<span>March 27, 2021</span></a></div></div><script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#git-objects>Git Objects</a></li><li><a href=#git-references>Git References</a></li></ul></li><li><a href=#visualizing-git>Visualizing Git</a></li><li><a href=#questions>Questions</a></li><li><a href=#references>References</a></li></ul></nav></div></aside></main></body></html>

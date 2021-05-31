@@ -1,0 +1,180 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.83.1"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Introduction #  Here&rsquo;s what I did for hosting my website on GitHub Pages using a custom domain. I&rsquo;ll think about self hosting using a web server on a VPS later.
+Go ahead and purchase a domain from a registrar which offers decent purchase as well as renewal prices on domains. Choose a top-level domain (TLD) which doesn&rsquo;t restrict WHOIS privacy and has DNSSEC. The .com TLD fulfills these criteria but the ."><meta name=theme-color content="#343A40"><meta name=mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-capable content="yes"><meta name=application-name content="Notes"><meta name=apple-mobile-web-app-title content="Notes"><meta name=theme-color content="#343A40"><meta name=msapplication-navbutton-color content="#E9ECEF"><meta name=apple-mobile-web-app-status-bar-style content="#343A40"><meta name=msapplication-starturl content="/index.html"><meta property="og:title" content="How Does DNS Work?"><meta property="og:description" content="Introduction #  Here&rsquo;s what I did for hosting my website on GitHub Pages using a custom domain. I&rsquo;ll think about self hosting using a web server on a VPS later.
+Go ahead and purchase a domain from a registrar which offers decent purchase as well as renewal prices on domains. Choose a top-level domain (TLD) which doesn&rsquo;t restrict WHOIS privacy and has DNSSEC. The .com TLD fulfills these criteria but the ."><meta property="og:type" content="article"><meta property="og:url" content="https://ayushnix.com/wiki/docs/networking/how-does-dns-work/"><meta property="article:section" content="docs"><meta property="article:published_time" content="2021-03-14T20:37:17+05:30"><meta property="article:modified_time" content="2021-04-15T02:25:52+05:30"><title>How Does DNS Work? | My Wiki</title><link rel=manifest href=/wiki/manifest.json><link rel=icon href=/wiki/favicon-48.png type=image/x-icon><link rel=icon href=/wiki/favicon-96.png type=image/x-icon><link rel=icon href=/wiki/favicon-144.png type=image/x-icon><link rel=icon href=/wiki/favicon-192.png type=image/x-icon><link rel=icon href=/wiki/favicon-512.png type=image/x-icon><link rel=apple-touch-icon href=/wiki/favicon-48.png><link rel=apple-touch-icon href=/wiki/favicon-96.png><link rel=apple-touch-icon href=/wiki/favicon-144.png><link rel=apple-touch-icon href=/wiki/favicon-192.png><link rel=apple-touch-icon href=/wiki/favicon-512.png><link rel=stylesheet href=/wiki/book.min.121a372e4338a04ef8f8346db400e0ce5f7956c9b0011e356bc52d6c9acd5bca.css integrity="sha256-Eho3LkM4oE74+DRttADgzl95VsmwAR41a8UtbJrNW8o="><script defer src=/wiki/en.search.min.c35720179d7c63b89dcc39d22a2a75bf4a15367ce19a03bb011d371826f32aae.js integrity="sha256-w1cgF518Y7idzDnSKip1v0oVNnzhmgO7AR03GCbzKq4="></script><link rel=preload href=fonts/Inter-Regular.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/Inter-Italic.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/Inter-Bold.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/JetBrainsMono-Italic.woff2 as=font type=font/woff2 crossorigin><script>'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('/wiki/sw.js',{scope:'/wiki/'})})</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/wiki><span>My Wiki</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li class=book-section-flat><input type=checkbox id=section-6b7748b591138f4b06171f4f14985eeb class=toggle>
+<label for=section-6b7748b591138f4b06171f4f14985eeb class="flex justify-between"><a>Linux System Administration</a></label><ul><li><input type=checkbox id=section-7047c3efaecc121ed0634f6aafd5aa5a class=toggle>
+<label for=section-7047c3efaecc121ed0634f6aafd5aa5a class="flex justify-between"><a>Shell</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/shell/scripting/>Shell Scripting</a></li></ul></li><li><input type=checkbox id=section-bec2b42ecb57ffbe452c484da0a12784 class=toggle>
+<label for=section-bec2b42ecb57ffbe452c484da0a12784 class="flex justify-between"><a>Tools</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/tools/tmux/>tmux</a></li></ul></li><li><input type=checkbox id=section-ed810691b7f96ac491f764b798366e7e class=toggle>
+<label for=section-ed810691b7f96ac491f764b798366e7e class="flex justify-between"><a>Rants</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/rants/linux/>Linux Desktop Is a Shit Show</a></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-402b3ea0ff87c091885807d21f799220 class=toggle checked>
+<label for=section-402b3ea0ff87c091885807d21f799220 class="flex justify-between"><a>Networking</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/networking/how-does-dns-work/ class=active>How Does DNS Work?</a></li></ul></li><li class=book-section-flat><input type=checkbox id=section-2af6a70294eb0b54b31a050af16e50d4 class=toggle>
+<label for=section-2af6a70294eb0b54b31a050af16e50d4 class="flex justify-between"><a>DevOps</a></label><ul><li><input type=checkbox id=section-a42f10b87ea0abe926d6f43be6a257cb class=toggle>
+<label for=section-a42f10b87ea0abe926d6f43be6a257cb class="flex justify-between"><a>Git</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/devops/git/getting-started-with-git/>Getting Started With Git</a></li></ul></li></ul></li></ul></nav><script>(function(){var a=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/wiki/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>How Does DNS Work?</strong>
+<label for=toc-control><img src=/wiki/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#how-does-dns-work>How Does DNS Work?</a><ul><li><a href=#dns-query-and-nameservers>DNS Query and Nameservers</a></li><li><a href=#dns-resource-records>DNS Resource Records</a><ul><li><a href=#a-record>A Record</a></li><li><a href=#cname-record>CNAME Record</a></li><li><a href=#aliasaname-record>ALIAS/ANAME Record</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=introduction>Introduction
+<a class=anchor href=#introduction>#</a></h1><p>Here&rsquo;s what I did for hosting my website on GitHub Pages using a custom domain.
+I&rsquo;ll think about self hosting using a web server on a VPS later.</p><p>Go ahead and purchase a domain from a registrar which offers decent purchase as
+well as renewal prices on domains. Choose a top-level domain (TLD) which
+doesn&rsquo;t restrict WHOIS privacy and has DNSSEC. The <code>.com</code> TLD fulfills these
+criteria but the <code>.in</code> TLD doesn&rsquo;t because it doesn&rsquo;t offer WHOIS privacy. The
+registrar you choose should also offer WHOIS privacy by default.</p><p>As on 14th April 2021, CloudFlare doesn&rsquo;t allow you to buy domain names but
+does allow you to transfer domain names to them but this is a time consuming
+process. After your domain has been transferred, you&rsquo;ll be locked into
+CloudFlare&rsquo;s services which can be a bummer. CloudFlare&rsquo;s service has its own set
+of issues like annoying captchas.</p><p>The domain name registrar you use would typically offer their own authoritative
+name servers. You can keep using them if you wish. They might also offer free
+TLS certificates. You can choose to use them or create your own. For now, we&rsquo;re
+hosting our website on GitHub Pages and that takes care of the TLS part. If we
+use a VPS in the future and host our own content on our own web server, that&rsquo;d
+need messing around with our TLS certs.</p><h1 id=how-does-dns-work>How Does DNS Work?
+<a class=anchor href=#how-does-dns-work>#</a></h1><h2 id=dns-query-and-nameservers>DNS Query and Nameservers
+<a class=anchor href=#dns-query-and-nameservers>#</a></h2><p>I&rsquo;ve tried to envision how DNS works, from a bird&rsquo;s eye view, in the following
+diagram. This probably needs some changes though.</p><picture><source srcset=/wiki/images/dns-dark.png media="(prefers-color-scheme: dark)"><img src=/wiki/images/dns-light.png alt></picture><p>Here&rsquo;s what we need to know.</p><p>The domain, <code>ayushnix.com</code>, is known as the <strong>apex domain</strong> or the <strong>root
+domain</strong>. You might&rsquo;ve come across the <code>www</code> variant on many websites. That&rsquo;s a
+subdomain, although a special one since it has been in use since the world wide
+web came along back in 1989.</p><p>You&rsquo;ll enter <code>ayushnix.com</code> on your web browser and it&rsquo;ll route your query to
+your local DNS client (also sometimes called a stub resolver). In my case,
+that&rsquo;s <a href=https://github.com/DNSCrypt/dnscrypt-proxy>dnscrypt-proxy</a>. People
+call <a href=https://github.com/NLnetLabs/unbound>Unbound</a> a recursive DNS resolver
+but that&rsquo;s probably only applicable when using Unbound in an actual DNS server
+setup.</p><p>At this point, realistically, our query can often be found in the DNS cache of
+the client we&rsquo;re using and gets resolved almost instantaneously. However, if it
+isn&rsquo;t, it&rsquo;s forwarded to a <strong>recursive</strong> DNS server. This can be <code>1.1.1.1</code> or
+<code>8.8.8.8</code> or something similar. These recursive DNS servers probably have our
+query in their cache and if that&rsquo;s the case, we&rsquo;ll get a response shortly. If
+not, depending on the situation, the recursive DNS you&rsquo;ve queried can either
+query (recursion!) the</p><ul><li><strong>authoritative nameservers</strong></li><li><strong>top level domain (TLD) nameservers</strong> of <code>.com</code></li><li><strong>root nameservers</strong></li></ul><p>These nameservers (NS) are mentioned in decreasing order of the probability of
+being visited.</p><p>If the recursive DNS we&rsquo;re using doesn&rsquo;t have the <code>A</code> records of
+<code>ayushnix.com</code>, it&rsquo;ll go to the authoritative NS that <code>ayushnix.com</code> is using.
+For now, I&rsquo;m using the NS provided by my domain name registrar but one can also
+use authoritative nameservers provided by Cloudflare or other companies for
+faster DNS resolution. These authoritative nameservers will provide the
+required <code>A</code> records and DNS resolution for my website will finish
+successfully.</p><p>If the recursive DNS we&rsquo;re using has neither <code>A</code> records nor the authoritative
+NS records for <code>ayushnix.com</code>, it&rsquo;ll go to the TLD NS of <code>com</code> since I&rsquo;m using
+the <code>com</code> top level domain. It&rsquo;ll ask for the authoritative NS records of
+<code>ayushnix.com</code> and upon receiving them, will visit the authoritative NS and get
+the needed <code>A</code> records.</p><p>In rare cases, when the recursive DNS we&rsquo;re using doesn&rsquo;t have the address of
+TLD NS of <code>com</code>, it&rsquo;ll need to go the root nameservers and get the NS records
+for <code>com</code>. As on April 2021, there are 13 root nameservers maintained by
+various organizations around the world. Obviously, there are lots of anycast
+servers behind the scenes. If you want, you can check the list of root
+nameservers <a href=https://www.internic.net/domain/named.root>here</a>.</p><p>It&rsquo;s interesting to note that most queries to root nameservers aren&rsquo;t
+legitimate but NXDOMAIN queries or other queries due to caching issues. <a href=https://arstechnica.com/gadgets/2020/08/a-chrome-feature-is-creating-enormous-load-on-global-root-dns-servers/>An
+interesting
+case</a>
+was published recently on ArsTechnica which mentioned how a feature in Chrome
+was generating large amounts of traffic on root nameservers. A detailed <a href=https://blog.apnic.net/2020/08/21/chromiums-impact-on-root-dns-traffic/>blog
+post</a>
+was published by Verisign.</p><p>Basically, ISPs often hijack user DNS and show ads for their products on
+NXDOMAIN pages. Interestingly, Verisign did this themselves with
+<a href=https://en.m.wikipedia.org/wiki/Site_Finder>SiteFinder</a> making a wildcard DNS
+record for all NXDOMAINs in <code>.com</code> and <code>.net</code> TLD and showing ads. Pretty
+ironic considering this issue with Chrome has been highlighted by Verisign
+themselves. To stop this bullshit, Chrome started generating random domains to
+check whether NXDOMAINs were being hijacked and if yes, stopped suggesting the
+user to visit <code>http://myserver</code> in case the user types <code>myserver</code> in the search
+plus address bar. However, in case NXDOMAINs weren&rsquo;t being hijacked, Chrome
+kept checking this and increased load on root nameservers such that more than
+half all traffic on the root nameserver run by Verisign came from Chrome.</p><h2 id=dns-resource-records>DNS Resource Records
+<a class=anchor href=#dns-resource-records>#</a></h2><p>DNS resource records are, apparently, often a source of confusion among website
+owners. I won&rsquo;t document each and every resource record in this section. The
+<code>A/AAAA</code> record, <code>ALIAS/ANAME</code> record, and the <code>CNAME</code> record are the ones we need
+to focus on. If you need more information about DNS resource records, go to
+<a href=https://www.cloudflare.com/learning/dns/dns-records/>Cloudflare&rsquo;s Learning
+Center</a>.</p><h3 id=a-record>A Record
+<a class=anchor href=#a-record>#</a></h3><p>Understanding the <code>A/AAAA</code> record is simple — it holds the IPv4/IPv6 address
+for a domain. You can use multiple <code>A</code> records for a single domain, kinda like
+how <a href=https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain>GitHub
+Pages</a>
+tells you to point your apex domain to the following IP addresses and create
+<code>A</code> records.</p><pre><code>185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+</code></pre><p>Some websites might use <code>@</code> to denote the apex domain.</p><h3 id=cname-record>CNAME Record
+<a class=anchor href=#cname-record>#</a></h3><p><code>A</code> records are straightforward to use. However, when you&rsquo;re dealing with
+multiple subdomains, writing <code>A</code> records for each of them isn&rsquo;t the best thing
+we can do. If the IP addresses that all those <code>A</code> records would point to
+change, we&rsquo;re gonna have a hard time changing all the <code>A</code> records to reflect
+those changes.</p><p>To resolve this issue, we can use <code>CNAME</code> records. A <code>CNAME</code> record must always
+point to another domain, never to an IP address. The most obvious usage of
+<code>CNAME</code> records is pointing the <code>www</code> subdomain variant to the apex domain. In
+my case, I have a <code>CNAME</code> record pointing <code>www.ayushnix.com</code> to <code>ayushnix.com</code>.
+Here&rsquo;s a truncated output showcasing what I&rsquo;m talking about.</p><pre><code>➜ drill ayushnix.com
+
+;; ANSWER SECTION:
+ayushnix.com.   3599    IN      A       185.199.109.153
+ayushnix.com.   3599    IN      A       185.199.111.153
+ayushnix.com.   3599    IN      A       185.199.110.153
+ayushnix.com.   3599    IN      A       185.199.108.153
+
+➜ drill www.ayushnix.com
+
+;; ANSWER SECTION:
+www.ayushnix.com.       2399    IN      CNAME   ayushnix.github.io.
+ayushnix.github.io.     2399    IN      A       185.199.108.153
+ayushnix.github.io.     2399    IN      A       185.199.109.153
+ayushnix.github.io.     2399    IN      A       185.199.110.153
+ayushnix.github.io.     2399    IN      A       185.199.111.153
+</code></pre><p>A <code>CNAME</code> record can&rsquo;t be used to point the apex domain to another domain. This
+is a limitation imposed by IETF specifications although some DNS providers,
+like Cloudflare, don&rsquo;t care about this and allow you to do so.
+<a href=https://blog.cloudflare.com/introducing-cname-flattening-rfc-compliant-cnames-at-a-domains-root/>Here&rsquo;s</a>
+a good article by Cloudflare about this.</p><blockquote><p>Technically, the root could be a CNAME but the RFCs state that once a record
+has a CNAME it can&rsquo;t have any other entries associated with it: that&rsquo;s a
+problem for a root record like example.com because it will often have an MX
+record (so email gets delivered), an NS record (to find out which nameserver
+handles the zone) and an SOA record.</p></blockquote><blockquote><p>Because they follow this specification, most authoritative DNS servers won&rsquo;t
+allow you to include CNAME records at the root. At CloudFlare, we decided to
+let our users include a CNAME at the root even though we knew it violated the
+DNS specification. And that worked, most of the time. Unfortunately, there
+were a handful of edge cases that caused all sorts of problems.</p></blockquote><p>It&rsquo;d be better if we err on the side of caution here and assume that <code>CNAME</code>
+records can&rsquo;t be used for anything else (except DNSSEC).</p><p>It might not be obvious but there&rsquo;s no restriction regarding a <code>CNAME</code> record
+pointing to another <code>CNAME</code> record or a <code>CNAME</code> record using a subdomain
+pointing to another different domain. Here&rsquo;s an example.</p><pre><code>$ drill www.skyscanner.net
+
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, rcode: NOERROR, id: 15722
+;; flags: qr rd ra ; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
+;; QUESTION SECTION:
+;; www.skyscanner.net.	IN	A
+
+;; ANSWER SECTION:
+www.skyscanner.net.	2399	IN	CNAME	www.skyscanner.net.edgekey.net.
+www.skyscanner.net.edgekey.net.	2399	IN	CNAME	e11001.a.akamaiedge.net.
+e11001.a.akamaiedge.net.	2399	IN	A	23.213.57.166
+</code></pre><p>Just so we&rsquo;re clear, <code>www.skyscanner.net</code> is a label and
+<code>www.skyscanner.net.edgekey.net</code> is the CNAME.</p><p>As shown, <code>www.skyscanner.net</code> points to the <code>CNAME</code>
+<code>www.skyscanner.net.edgekey.net</code> which in turn points to the <code>CNAME</code>
+<code>e11001.a.akamaiedge.net</code> which then gives us an IP address.</p><p>Here&rsquo;s one of the advantages of using this setup. What if <code>www.skyscanner.net</code>
+suddenly starts experiencing too much traffic or wants to use a CDN? In this
+case, the CNAME of <code>www.skyscanner.net.edgekey.net</code> can be changed to something
+else like <code>e11316.a.akamaiedge.net</code> when needed and the actual website wouldn&rsquo;t
+experience any downtime or wouldn&rsquo;t need to change anything.</p><p>The case of websites using <code>CNAME</code>s for tracking is interesting to note. Here&rsquo;s
+an example from <a href=https://github.com/AdguardTeam/cname-trackers>AdGuard&rsquo;s cname-trackers
+repository</a>.</p><pre><code>&quot;tybfxw.puma.com&quot;: &quot;gum.am5.vip.prod.criteo.com&quot;
+</code></pre><p>Yes, a web browser without CNAME tracking protection would consider
+<code>tybfxw.puma.com</code> a first party domain of <code>puma.com</code> but it isn&rsquo;t. It redirects
+to a subdomain of <code>criteo.com</code> which is a well known advertising company.</p><p><a href=https://blog.apnic.net/2020/08/04/characterizing-cname-cloaking-based-tracking/>Here&rsquo;s</a>
+a good blog post about this issue. Basically, use uBlock Origin on Firefox if
+you want the maximum protection against CNAME tracking.</p><h3 id=aliasaname-record>ALIAS/ANAME Record
+<a class=anchor href=#aliasaname-record>#</a></h3><p>An <code>ALIAS/ANAME</code> record is basically a <code>CNAME</code> record without the limitations
+and inefficiency of <code>CNAME</code> records.</p><p>Cloudflare calls this <code>CNAME</code> flattening.</p><p>If we use an <code>ALIAS</code> record, we can point <code>ayushnix.com</code> to
+<code>ayushnix.github.io</code> without any worries. This takes care of the primary
+limitation of <code>CNAME</code> records.</p><p>To understand how inefficient <code>CNAME</code> records can be, let&rsquo;s go back to our
+<code>www.skyscanner.net</code> example mentioned above.</p><pre><code>www.skyscanner.net.             🠊 www.skyscanner.net.edgekey.net.
+www.skyscanner.net.edgekey.net. 🠊 e11001.a.akamaiedge.net.
+e11001.a.akamaiedge.net.        🠊 23.213.57.166
+</code></pre><p>In this case, our recursive NS will start with resolving <code>www.skyscanner.net</code>.
+After traveling all the way to an authoritative NS and back, it has to visit an
+authoritative server again to resolve <code>www.skyscanner.net.edgekey.net</code>. This
+process will be repeated for the resolution of <code>e11001.a.akamaiedge.net</code>. We&rsquo;ve
+essentially ended up making three DNS queries to resolve a single domain.
+Obviously, this introduces latency.</p><p>In contrast, when using an <code>ALIAS</code> record, the authoritative NS of
+<code>www.skyscanner.net</code> should resolve the underlying domains and return an IP
+address as the answer to the recursive resolver we&rsquo;re using. As you can
+imagine, this is relatively faster and the final answer looks like an <code>A</code>
+record. This can be confirmed by using <code>drill</code> on <code>ayushnix.com</code>.</p><p>One of the disadvantages of <code>ALIAS</code> mentioned on <a href=https://ns1.com/blog/the-difference-between-alias-and-cname>this blog
+post</a> tells us
+that <code>ALIAS</code> records may make CDN efforts worthless because the CDN will
+respond to the location of the authoritative nameserver, not yours.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/ayushnix/wiki/commit/2f49cb2f914aa36251ba744a81d04ce33288b30b title="Last modified by Ayush Agarwal | April 14, 2021" target=_blank rel=noopener><img src=/wiki/svg/calendar.svg class=book-icon alt=Calendar>
+<span>April 14, 2021</span></a></div></div><script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#how-does-dns-work>How Does DNS Work?</a><ul><li><a href=#dns-query-and-nameservers>DNS Query and Nameservers</a></li><li><a href=#dns-resource-records>DNS Resource Records</a><ul><li><a href=#a-record>A Record</a></li><li><a href=#cname-record>CNAME Record</a></li><li><a href=#aliasaname-record>ALIAS/ANAME Record</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

@@ -1,0 +1,337 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.83.1"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Introduction #  Knowing how to use your shell and being able to write scripts that work across different Unix-like operating systems can be an incredibly important skill. I&rsquo;ve often thought about it as an essential skill that a sysadmin should possess. However, there are various complications when it comes to using shell scripts.
+  although bash is the most popular shell out there, it isn&rsquo;t the standard shell used across all Unix-like systems"><meta name=theme-color content="#343A40"><meta name=mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-capable content="yes"><meta name=application-name content="Notes"><meta name=apple-mobile-web-app-title content="Notes"><meta name=theme-color content="#343A40"><meta name=msapplication-navbutton-color content="#E9ECEF"><meta name=apple-mobile-web-app-status-bar-style content="#343A40"><meta name=msapplication-starturl content="/index.html"><meta property="og:title" content="Shell Scripting"><meta property="og:description" content="Introduction #  Knowing how to use your shell and being able to write scripts that work across different Unix-like operating systems can be an incredibly important skill. I&rsquo;ve often thought about it as an essential skill that a sysadmin should possess. However, there are various complications when it comes to using shell scripts.
+  although bash is the most popular shell out there, it isn&rsquo;t the standard shell used across all Unix-like systems"><meta property="og:type" content="article"><meta property="og:url" content="https://ayushnix.com/wiki/docs/sysadmin/shell/scripting/"><meta property="article:section" content="docs"><meta property="article:published_time" content="2021-01-03T19:02:52+05:30"><meta property="article:modified_time" content="2021-05-31T12:58:51+05:30"><title>Shell Scripting | My Wiki</title><link rel=manifest href=/wiki/manifest.json><link rel=icon href=/wiki/favicon-48.png type=image/x-icon><link rel=icon href=/wiki/favicon-96.png type=image/x-icon><link rel=icon href=/wiki/favicon-144.png type=image/x-icon><link rel=icon href=/wiki/favicon-192.png type=image/x-icon><link rel=icon href=/wiki/favicon-512.png type=image/x-icon><link rel=apple-touch-icon href=/wiki/favicon-48.png><link rel=apple-touch-icon href=/wiki/favicon-96.png><link rel=apple-touch-icon href=/wiki/favicon-144.png><link rel=apple-touch-icon href=/wiki/favicon-192.png><link rel=apple-touch-icon href=/wiki/favicon-512.png><link rel=stylesheet href=/wiki/book.min.121a372e4338a04ef8f8346db400e0ce5f7956c9b0011e356bc52d6c9acd5bca.css integrity="sha256-Eho3LkM4oE74+DRttADgzl95VsmwAR41a8UtbJrNW8o="><script defer src=/wiki/en.search.min.c35720179d7c63b89dcc39d22a2a75bf4a15367ce19a03bb011d371826f32aae.js integrity="sha256-w1cgF518Y7idzDnSKip1v0oVNnzhmgO7AR03GCbzKq4="></script><link rel=preload href=fonts/Inter-Regular.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/Inter-Italic.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/Inter-Bold.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=fonts/JetBrainsMono-Italic.woff2 as=font type=font/woff2 crossorigin><script>'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('/wiki/sw.js',{scope:'/wiki/'})})</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/wiki><span>My Wiki</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li class=book-section-flat><input type=checkbox id=section-6b7748b591138f4b06171f4f14985eeb class=toggle checked>
+<label for=section-6b7748b591138f4b06171f4f14985eeb class="flex justify-between"><a>Linux System Administration</a></label><ul><li><input type=checkbox id=section-7047c3efaecc121ed0634f6aafd5aa5a class=toggle checked>
+<label for=section-7047c3efaecc121ed0634f6aafd5aa5a class="flex justify-between"><a>Shell</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/shell/scripting/ class=active>Shell Scripting</a></li></ul></li><li><input type=checkbox id=section-bec2b42ecb57ffbe452c484da0a12784 class=toggle>
+<label for=section-bec2b42ecb57ffbe452c484da0a12784 class="flex justify-between"><a>Tools</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/tools/tmux/>tmux</a></li></ul></li><li><input type=checkbox id=section-ed810691b7f96ac491f764b798366e7e class=toggle>
+<label for=section-ed810691b7f96ac491f764b798366e7e class="flex justify-between"><a>Rants</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/sysadmin/rants/linux/>Linux Desktop Is a Shit Show</a></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-402b3ea0ff87c091885807d21f799220 class=toggle>
+<label for=section-402b3ea0ff87c091885807d21f799220 class="flex justify-between"><a>Networking</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/networking/how-does-dns-work/>How Does DNS Work?</a></li></ul></li><li class=book-section-flat><input type=checkbox id=section-2af6a70294eb0b54b31a050af16e50d4 class=toggle>
+<label for=section-2af6a70294eb0b54b31a050af16e50d4 class="flex justify-between"><a>DevOps</a></label><ul><li><input type=checkbox id=section-a42f10b87ea0abe926d6f43be6a257cb class=toggle>
+<label for=section-a42f10b87ea0abe926d6f43be6a257cb class="flex justify-between"><a>Git</a></label><ul><li><a href=https://ayushnix.com/wiki/docs/devops/git/getting-started-with-git/>Getting Started With Git</a></li></ul></li></ul></li></ul></nav><script>(function(){var a=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/wiki/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Shell Scripting</strong>
+<label for=toc-control><img src=/wiki/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#linter-formatter-and-testing>Linter, Formatter, and Testing</a></li><li><a href=#shell-strict-mode>Shell Strict Mode</a><ul><li><a href=#set--e>set -e</a></li><li><a href=#set--u>set -u</a></li><li><a href=#set--o-pipefail>set -o pipefail</a></li><li><a href=#set--c>set -C</a></li><li><a href=#trap>trap</a></li></ul></li><li><a href=#style-guide>Style Guide</a><ul><li><a href=#general-recommendations>General Recommendations</a></li><li><a href=#avoid-this>Avoid This</a></li></ul></li></ul></li><li><a href=#posix-sh>POSIX sh</a></li><li><a href=#bash>bash</a><ul><li><a href=#control-operators>Control Operators</a></li><li><a href=#redirections>Redirections</a></li><li><a href=#here-documents>Here Documents</a></li><li><a href=#conditional-constructs>Conditional Constructs</a><ul><li><a href=#conditional-expression>Conditional Expression</a></li><li><a href=#if-then-else>if then else</a></li><li><a href=#case>case</a></li></ul></li><li><a href=#looping-constructs>Looping Constructs</a></li><li><a href=#group-commands>Group Commands</a></li><li><a href=#functions>Functions</a></li><li><a href=#parameters>Parameters</a></li><li><a href=#builtin-commands>Builtin Commands</a><ul><li><a href=#declaration-commands>Declaration Commands</a></li><li><a href=#io>I/O</a></li><li><a href=#misc>Misc</a></li></ul></li><li><a href=#builtin-shell-variables>Builtin Shell Variables</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=introduction>Introduction
+<a class=anchor href=#introduction>#</a></h1><p>Knowing how to use your shell and being able to write scripts that work across
+different Unix-like operating systems can be an incredibly important skill.
+I&rsquo;ve often thought about it as an essential skill that a sysadmin should
+possess. However, there are various complications when it comes to using shell
+scripts.</p><ul><li><p>although bash is the most popular shell out there, it isn&rsquo;t the standard shell
+used across all Unix-like systems</p><p>Debian uses dash as its <code>/bin/sh</code> and Alpine, used widely in containers, uses
+BusyBox which uses its own version of
+<a href=https://en.wikipedia.org/wiki/Almquist_shell>ash</a>. There&rsquo;s <code>tcsh</code> used by
+FreeBSD and <code>pdksh</code> used by OpenBSD. Needless to say, there are syntactical
+differences between all of them although scripts written in POSIX sh should
+probably run reliably across all of these platforms.</p></li><li><p>shell scripts do not have robust error handling features and they can&rsquo;t handle
+edge cases you didn&rsquo;t think about</p><p>Drew DeVault wrote a <a href=https://drewdevault.com/2020/12/12/Shell-literacy.html>blog
+post</a> about becoming
+shell literate. A guy on HN rightfully <a href="https://news.ycombinator.com/item?id=25402003">pointed
+out</a> the flaws in the
+operation<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>.</p><p><a href=http://typingducks.com/blog/bash/>Here&rsquo;s</a> a blog post about issues when
+using shell scripts.</p></li></ul><p>However, if you know what you&rsquo;re doing, shell scripting using POSIX sh or
+bash<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup> can be an incredibly powerful tool in your repertoire. You may or may
+not have access to Python or Perl in your Unix-like platform or in your
+container but you will always have a shell.</p><p>We&rsquo;ll talk about POSIX <code>sh</code> first and then we&rsquo;ll move on to features specific to
+<code>bash</code>. In case your <code>/bin/sh</code> is symlinked to <code>bash</code>, install
+<a href=https://git.kernel.org/pub/scm/utils/dash/dash.git>dash</a>. There&rsquo;s also
+<a href=http://www.mirbsd.org/mksh.htm#otheros>mksh</a> which seems to be POSIX compliant
+and is also used on Android.</p><h2 id=linter-formatter-and-testing>Linter, Formatter, and Testing
+<a class=anchor href=#linter-formatter-and-testing>#</a></h2><p>Before we get started with bash shell scripting, install
+<a href=https://github.com/koalaman/shellcheck>shellcheck</a>.</p><p>We&rsquo;ll also use <a href=https://github.com/mvdan/sh>shfmt</a> to follow a specific style
+guide and stick to it. I&rsquo;m using <code>-i 2 -ci -sr -bn</code> options with <code>shfmt</code>.
+You&rsquo;ll need a plugin like <a href=https://github.com/dense-analysis/ale>ALE</a> or
+<a href=https://github.com/neomake/neomake>neomake</a> to use shellcheck and shfmt on
+neovim.</p><p>I&rsquo;m not sure if <a href=https://github.com/bats-core/bats-core>bats</a> is helpful.
+There&rsquo;s also <a href=https://github.com/shellspec/shellspec>shellspec</a>.</p><h2 id=shell-strict-mode>Shell Strict Mode
+<a class=anchor href=#shell-strict-mode>#</a></h2><p><a href=http://redsymbol.net/articles/unofficial-bash-strict-mode/>This</a> blog post,
+for better or worse, seems to have popularized strict mode in shell scripting.</p><h3 id=set--e>set -e
+<a class=anchor href=#set--e>#</a></h3><p>First, we have <code>set -e</code>. It&rsquo;s supposed to exit immediately whenever there&rsquo;s an
+error in a script. However, this doesn&rsquo;t always work as expected. It&rsquo;s not just
+about <code>set -e</code> not being able to detect certain class of errors. In that case,
+using it would&rsquo;ve been fine. But, <code>set -e</code> introduces false positives and exits
+when we may not intend to.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>set -eu
+
+count<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>grep -c some-string /usr/bin/pass<span style=color:#66d9ef>)</span> <span style=color:#75715e># script execution aborts here</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>count<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> -ne <span style=color:#ae81ff>0</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#34;something found&#34;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#34;nothing found&#34;</span>
+<span style=color:#66d9ef>fi</span>
+</code></pre></div><p>In this case, if <code>grep</code> fails to find any match, the exit code becomes non-zero.
+However, that&rsquo;s fine, because we intend to use it as a test case. But using <code>set -e</code> aborts execution.</p><p>There are <a href=http://typingducks.com/blog/bash/>plenty</a> of other
+<a href=https://mywiki.wooledge.org/BashFAQ/105>examples</a> of unintended behavior when
+using <code>set -e</code>. As a result, <strong>we WON&rsquo;T be using</strong> <code>set -e</code> in our scripts.</p><h3 id=set--u>set -u
+<a class=anchor href=#set--u>#</a></h3><h3 id=set--o-pipefail>set -o pipefail
+<a class=anchor href=#set--o-pipefail>#</a></h3><blockquote class="book-hint warning"><code>set -o pipefail</code> doesn&rsquo;t work on POSIX sh</blockquote><p>The exit status of a pipeline is the exit status of the last command in the
+pipeline unless <code>set -o pipefail</code> is enabled in which case the exit status is
+that of the command which fails first.</p><h3 id=set--c>set -C
+<a class=anchor href=#set--c>#</a></h3><p>We might wanna use <code>set -C</code> to prevent accidental overwriting of files. It&rsquo;d be
+better to adopt the practice of creating files separately instead of using <code>></code>
+to create files as well.</p><h3 id=trap>trap
+<a class=anchor href=#trap>#</a></h3><h2 id=style-guide>Style Guide
+<a class=anchor href=#style-guide>#</a></h2><p><a href=https://google.github.io/styleguide/shellguide.html>Google&rsquo;s Shell Style
+Guide</a> should serve as a
+good reference but we may not follow everything written there. Using <code>shfmt</code>
+should help as well.</p><h3 id=general-recommendations>General Recommendations
+<a class=anchor href=#general-recommendations>#</a></h3><ol><li><p>the following format may be adopted when writing shell scripts</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=color:#75715e>#!/bin/sh
+</span><span style=color:#75715e></span><span style=color:#75715e>#</span>
+<span style=color:#75715e># BRIEF DESCRIPTION OF WHAT THE SCRIPT DOES</span>
+<span style=color:#75715e>#</span>
+<span style=color:#75715e># AUTHOR AND COPYRIGHT INFORMATION IF NEEDED</span>
+&lt;actual code&gt;
+</code></pre></div></li><li><p>prefer using built-in methods rather than external programs</p><p><code>sh</code>, and particularly <code>bash</code>, have a lot of built-in methods that might make
+using external programs unnecessary. Using built-in methods reduces
+dependencies and makes your code much faster.</p><p>A simple example would be using built-in parameter expansions rather than
+<code>sed</code>/<code>awk</code> for trivial data manipulation tasks.</p></li><li><p>use <code>#!/bin/sh</code> (or <code>#!/bin/bash</code>, if you need to write shell scripts with
+bash-isms) as the shebang</p><p>If a platform doesn&rsquo;t have <code>/bin/sh</code> or <code>/bin/bash</code> (NixOS, BSDs), adapt your
+scripts accordingly at the time of installation.</p><p>Although <code>#!/usr/bin/env sh</code> is better for portability, we&rsquo;ll prefer not to
+use it. You can&rsquo;t pass arguments in this form and using it allows the
+possibility of using arbitrary binaries available in <code>PATH</code>. I guess one has
+bigger problems to worry about if the <code>PATH</code> on his system can&rsquo;t be trusted.</p></li><li><p>use <code>"${var}"</code> instead of <code>"$var"</code> — the exception to this rule is when using
+positional parameters like <code>"$1"</code> or special parameters like <code>"$@"</code></p></li><li><p>when using <code>if-then-else</code>, the <code>then</code> block should preferably contain things you want
+happening if everything&rsquo;s good rather than error responses</p><p>consider this block of code and execute it</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=color:#75715e>#!/bin/bash
+</span><span style=color:#75715e></span>
+<span style=color:#75715e># pass isn&#39;t defined deliberately or assume that pass has some invalid</span>
+<span style=color:#75715e># characters like non-alphanumeric characters</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$pass<span style=color:#e6db74>&#34;</span> -ge <span style=color:#ae81ff>100</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+  echo <span style=color:#e6db74>&#34;success&#34;</span>
+<span style=color:#66d9ef>else</span>
+  echo <span style=color:#e6db74>&#34;failed&#34;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$pass<span style=color:#e6db74>&#34;</span> -lt <span style=color:#ae81ff>100</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+  echo <span style=color:#e6db74>&#34;failed&#34;</span>
+<span style=color:#66d9ef>else</span>
+  echo <span style=color:#e6db74>&#34;sucess&#34;</span>
+<span style=color:#66d9ef>fi</span>
+</code></pre></div><p>although both constructs are logically the same, the 2nd construct turns out
+to be problematic because the else block is executed</p></li></ol><h3 id=avoid-this>Avoid This
+<a class=anchor href=#avoid-this>#</a></h3><ol><li><p><code>&> fille</code> and <code>|& tee</code></p></li><li><p><code>select</code> — just use a combination of <code>while</code>, <code>read</code>, <code>case</code>, and <code>if</code>
+instead</p></li><li><p><code>until</code> loop</p></li><li><p><code>$'...'</code> ANSI C style quotes</p></li><li><p><code>;&</code> and <code>;;&</code> terminators in <code>case</code></p></li><li><p><code>function</code> keyword to define functions</p></li></ol><h1 id=posix-sh>POSIX sh
+<a class=anchor href=#posix-sh>#</a></h1><h1 id=bash>bash
+<a class=anchor href=#bash>#</a></h1><h2 id=control-operators>Control Operators
+<a class=anchor href=#control-operators>#</a></h2><p><code>command1 && command2</code> causes <code>command2</code> to be executed only if <code>command1</code> exits
+successfully.</p><p><code>command1 || command2</code> causes <code>command2</code> to be executed only if <code>command1</code>
+fails.</p><p><code>! command</code> is true if <code>command</code> is false</p><h2 id=redirections>Redirections
+<a class=anchor href=#redirections>#</a></h2><p>The following table depicts the effect of redirection and piping to a file.</p><p><code>stdin</code> has the file descriptor <code>0</code>.</p><table><thead><tr><th>syntax</th><th>terminal stdout</th><th>terminal stderr</th><th>file stdout</th><th>file stderr</th><th>effect on file</th></tr></thead><tbody><tr><td><code>></code></td><td>no</td><td>yes</td><td>yes</td><td>no</td><td>overwrite</td></tr><tr><td><code>>></code></td><td>no</td><td>yes</td><td>yes</td><td>no</td><td>append</td></tr><tr><td><code>2></code></td><td>yes</td><td>no</td><td>no</td><td>yes</td><td>overwrite</td></tr><tr><td><code>2>></code></td><td>yes</td><td>no</td><td>no</td><td>yes</td><td>append</td></tr><tr><td><code>> file 2>&1</code></td><td>no</td><td>no</td><td>yes</td><td>yes</td><td>overwrite</td></tr><tr><td><code>>> file 2>&1</code></td><td>no</td><td>no</td><td>yes</td><td>yes</td><td>append</td></tr><tr><td><code>| tee</code></td><td>yes</td><td>yes</td><td>yes</td><td>no</td><td>overwrite</td></tr><tr><td><code>| tee -a</code></td><td>yes</td><td>yes</td><td>yes</td><td>no</td><td>append</td></tr><tr><td><code>2>&1 | tee</code></td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>overwrite</td></tr><tr><td><code>2>&1 | tee -a</code></td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>append</td></tr></tbody></table><p>You might wonder about the difference between <code>> file 2>&1</code> and <code>2>&1 > file</code>.
+In the first case, you won&rsquo;t get any output on the terminal and both stdout (1)
+and stderr (2) are redirected to <code>file</code>. However, in the 2nd case, stderr is
+still shown on the terminal.</p><p>For understanding the meaning behind <code>a>&b</code>, read this as <code>a</code> is now pointing
+wherever <code>b</code> is pointing at the moment. Also, <code>a</code> won&rsquo;t stop pointing wherever
+<code>b</code> was pointing to if <code>b</code> starts pointing anywhere else.</p><p>This implies that <code>> file 2>&1</code> means that point stdout to <code>file</code>, and also
+point stderr to wherever stdout is pointing to (which is <code>file</code>). Similarly,
+<code>2>&1 > file</code> implies that point stderr to wherever stdout is poiting to (which
+is the terminal at this point) and then point stdout to <code>file</code>. stderr will
+still keep pointing to the terminal though.</p><p><a href=https://catonmat.net/ftp/bash-redirections-cheat-sheet.pdf>Here&rsquo;s</a> a
+cheatsheet that&rsquo;ll help as well. A series<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup> of blog posts have been written as
+well.</p><h2 id=here-documents>Here Documents
+<a class=anchor href=#here-documents>#</a></h2><p>You might&rsquo;ve come across segments of code such as</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>var<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+
+cat <span style=color:#e6db74>&lt;&lt; EOF
+</span><span style=color:#e6db74>first line
+</span><span style=color:#e6db74>second line
+</span><span style=color:#e6db74>third line
+</span><span style=color:#e6db74>this is a $var
+</span><span style=color:#e6db74>EOF</span>
+
+cat <span style=color:#e6db74>&lt;&lt; &#39;EOF&#39;
+</span><span style=color:#e6db74>first line
+</span><span style=color:#e6db74>second line
+</span><span style=color:#e6db74>third line
+</span><span style=color:#e6db74>this is a $var
+</span><span style=color:#e6db74>EOF</span>
+
+cat <span style=color:#e6db74>&lt;&lt; &#39;EOF&#39; | sed &#39;s/a/b/&#39; | tee /tmp/foobar
+</span><span style=color:#e6db74>foo
+</span><span style=color:#e6db74>bar
+</span><span style=color:#e6db74>baz
+</span><span style=color:#e6db74>EOF</span>
+
+<span style=color:#66d9ef>if</span> true; <span style=color:#66d9ef>then</span>
+  cat <span style=color:#e6db74>&lt;&lt;- EOF &gt; /tmp/yourfilehere
+</span><span style=color:#e6db74>	The leading tab is ignored.
+</span><span style=color:#e6db74>	EOF</span>
+<span style=color:#66d9ef>fi</span>
+</code></pre></div><p>These are called <strong>here documents</strong>. The first form will expand the <code>$var</code> and
+the second form won&rsquo;t. The third form is meant to demonstrate that the output
+can be redirected to another command. The final form is used for stripping
+leading tab characters in cases when here documents are indented for readability
+purposes.</p><h2 id=conditional-constructs>Conditional Constructs
+<a class=anchor href=#conditional-constructs>#</a></h2><h3 id=conditional-expression>Conditional Expression
+<a class=anchor href=#conditional-expression>#</a></h3><p>The conditional expression <code>[[ &lt;expression> ]]</code> returns a value of 0 or 1
+depending on the evaluation of the expression inside.</p><p>A list of common tests you can do inside <code>[[ ... ]]</code> are</p><table><thead><tr><th>Operator Syntax</th><th>Description</th></tr></thead><tbody><tr><td><code>-e file</code></td><td>TRUE, if file exists</td></tr><tr><td><code>-f file</code></td><td>TRUE, if a regular file exists</td></tr><tr><td><code>-d file</code></td><td>TRUE, if a directory exists</td></tr><tr><td><code>-r, -w, -x file</code></td><td>TRUE, if read, write, executable permissions exist</td></tr><tr><td><code>-s file</code></td><td>TRUE, if size of the file is greater than 0 (not empty)</td></tr><tr><td><code>file1 -nt file2</code></td><td>TRUE, if file1 is newer than file2; use <code>-ot</code> for the antonym</td></tr><tr><td><code>-z string</code></td><td>TRUE, if string is empty</td></tr><tr><td><code>-n string</code></td><td>TRUE, if string is not empty</td></tr><tr><td><code>string1 == string2</code></td><td>TRUE, if string1 matches the <strong>pattern</strong> in string2</td></tr><tr><td><code>string1 == "string2"</code></td><td>TRUE, if string1 literally matches string2</td></tr><tr><td><code>string1 != string2</code></td><td>TRUE, if string1 doesn&rsquo;t match the <strong>pattern</strong> in string2</td></tr><tr><td><code>string1 =~ string2</code></td><td>TRUE, if string1 matches the extended regex pattern in string2</td></tr><tr><td><code>string1 &lt; string2</code></td><td>TRUE, if string1 sorts before string2</td></tr><tr><td><code>int1 -eq int2</code></td><td>TRUE, if both integers are identical; <code>-ne</code> for the antonym</td></tr><tr><td><code>int1 -lt int2</code></td><td>TRUE, if int1 is less than int2; <code>-gt</code> for the antonym</td></tr><tr><td><code>int1 -le int2</code></td><td>TRUE, if int1 is less than or equal to int2; <code>-ge</code> for the antonym</td></tr></tbody></table><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>FILE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/home/triton/.bashrc&#34;</span>
+REGEX<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;\/[a-z]*\/[a-z]*&#39;</span>
+A<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+B<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> -f <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>FILE<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;exists!&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#75715e># no reason not to use quotes here as well when writing variables</span>
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>A<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> -eq <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>B<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;equals!&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;not equal&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#75715e># notice the difference between the following if-else statements</span>
+<span style=color:#75715e># in the 1st case, &#34;${FILE}&#34; matches against a pattern</span>
+<span style=color:#75715e># in the 2nd case, &#34;${FILE}&#34; matches against an exact string</span>
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>FILE<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>\/</span><span style=color:#f92672>[</span>a-z<span style=color:#f92672>]</span>* <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;matches&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;does not match&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>FILE<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;\/[a-z]*&#34;</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;matches&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;does not match&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#75715e># it&#39;s better to use regexes and specifying the regexes in a separate variable</span>
+
+<span style=color:#75715e># the in-built BASH_REMATCH array variable records the part of the string that</span>
+<span style=color:#75715e># matched the regex</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>FILE<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>=</span>~ $REGEX <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;matches&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;does not match&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>BASH_REMATCH[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</code></pre></div><h3 id=if-then-else>if then else
+<a class=anchor href=#if-then-else>#</a></h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>MOZ_ENABLE_WAYLAND<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>MOZ_ENABLE_WAYLAND<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> -eq <span style=color:#ae81ff>1</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;firefox will run natively in wayland&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;firefox will run in xorg&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#66d9ef>if</span> grep ^triton: /etc/passwd &gt; /dev/null 2&gt;&amp;1; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;triton is orbiting neptune&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;triton has become a rogue satellite&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+<span style=color:#66d9ef>if</span> ! mount | grep -i borg &gt;/dev/null 2&gt;&amp;1; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;FATAL: borg backup does not exist&#39;</span> &gt;&amp;<span style=color:#ae81ff>2</span>
+  exit <span style=color:#ae81ff>1</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;borg backup exists and is mounted&#39;</span>
+<span style=color:#66d9ef>fi</span>
+
+printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;enter a number&#39;</span>
+read -r n
+
+<span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>n<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> -eq <span style=color:#ae81ff>1</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;value of n is 1&#39;</span>
+<span style=color:#66d9ef>elif</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>n<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> -eq <span style=color:#ae81ff>2</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;value of n is 2&#39;</span>
+<span style=color:#66d9ef>else</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;value of n is other than 1 and 2&#39;</span>
+<span style=color:#66d9ef>fi</span>
+</code></pre></div><h3 id=case>case
+<a class=anchor href=#case>#</a></h3><p>The <code>elif</code> clause can be written multiple times. However, if you find yourself
+writing multiple <code>elif</code> clauses, it&rsquo;s better to use <code>case</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;locale?&#39;</span>
+read -r LANG
+
+<span style=color:#66d9ef>case</span> $LANG in
+  en*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;Hello!&#39;</span> ;;
+  fr*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;Salut!&#39;</span> ;;
+  de*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;Guten Tag!&#39;</span> ;;
+  nl*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;Hallo!&#39;</span> ;;
+  it*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;Ciao!&#39;</span> ;;
+  es*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;Hola!&#39;</span> ;;
+  C | POSIX<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;hello world&#39;</span> ;;
+  *<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;I do not speak your language.&#39;</span> ;;
+<span style=color:#66d9ef>esac</span>
+
+printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;enter a number&#39;</span>
+read -r num
+
+<span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>num<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> in
+  <span style=color:#e6db74>&#39;&#39;</span> | *<span style=color:#f92672>[</span>!0-9<span style=color:#f92672>]</span>*<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;input is not a number&#39;</span> ;;
+  *<span style=color:#f92672>)</span> printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#39;you have entered a number&#39;</span> ;;
+<span style=color:#66d9ef>esac</span>
+</code></pre></div><h2 id=looping-constructs>Looping Constructs
+<a class=anchor href=#looping-constructs>#</a></h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>count<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>
+i<span style=color:#f92672>=</span><span style=color:#ae81ff>20</span>
+ucount<span style=color:#f92672>=</span><span style=color:#ae81ff>20</span>
+j<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>
+array<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;1&#34;</span> <span style=color:#e6db74>&#34;2&#34;</span> <span style=color:#e6db74>&#34;3&#34;</span> <span style=color:#e6db74>&#34;4&#34;</span> <span style=color:#e6db74>&#34;5&#34;</span><span style=color:#f92672>)</span>
+<span style=color:#75715e># while loop</span>
+<span style=color:#66d9ef>while</span> <span style=color:#f92672>[[</span> $i -gt $count <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>do</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#34;</span>$i<span style=color:#e6db74>&#34;</span>
+  i<span style=color:#f92672>=</span><span style=color:#66d9ef>$((</span>i <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span><span style=color:#66d9ef>))</span>
+<span style=color:#66d9ef>done</span>
+
+<span style=color:#75715e># while loop with negation - use this instead of &#39;until&#39; loop</span>
+<span style=color:#66d9ef>while</span> ! <span style=color:#f92672>[[</span> $j -gt $ucount <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>do</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> $j
+  j<span style=color:#f92672>=</span><span style=color:#66d9ef>$((</span>j <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#66d9ef>))</span>
+<span style=color:#66d9ef>done</span>
+
+<span style=color:#75715e># for loop - 1st form</span>
+<span style=color:#66d9ef>for</span> k in <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>array[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>; <span style=color:#66d9ef>do</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#34;</span>$k<span style=color:#e6db74>&#34;</span>
+<span style=color:#66d9ef>done</span>
+
+<span style=color:#75715e># for loop - arithmetic expression</span>
+<span style=color:#66d9ef>for</span> <span style=color:#f92672>((</span>l <span style=color:#f92672>=</span> 1; l &lt; 10; l++<span style=color:#f92672>))</span>; <span style=color:#66d9ef>do</span>
+  printf <span style=color:#e6db74>&#39;%s\n&#39;</span> <span style=color:#e6db74>&#34;</span>$l<span style=color:#e6db74>&#34;</span>
+<span style=color:#66d9ef>done</span>
+</code></pre></div><p>In the case of for loops with the arithmetic expression form, if any of the
+expressions is omitted, it evaluates to 1.</p><p>In all of these loops, the exit status is the last command executed in the loop.</p><p>The <code>break</code> and <code>continue</code> builtin commands maybe used to control loop
+execution.</p><h2 id=group-commands>Group Commands
+<a class=anchor href=#group-commands>#</a></h2><p>We can group, and execute, multiple commands using either <code>(list)</code> or <code>{ list; }</code>.</p><p>The former grouping method, <code>(list)</code>, creates a subshell. Anything that affects
+the environment, variables, <code>cd</code> etc., aren&rsquo;t reflected outside the subshell.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>FILE<span style=color:#f92672>=</span>sample
+
+<span style=color:#f92672>{</span> echo $FILE; <span style=color:#f92672>}</span>
+
+<span style=color:#f92672>{</span>
+  echo <span style=color:#e6db74>&#34;</span>$FILE<span style=color:#e6db74>&#34;</span>
+  echo <span style=color:#e6db74>&#34;he finally got it&#34;</span>
+<span style=color:#f92672>}</span>
+
+<span style=color:#f92672>(</span>
+  <span style=color:#75715e># will be successful</span>
+  echo $FILE
+  FILE1<span style=color:#f92672>=</span>sample1
+  <span style=color:#75715e># will be successful</span>
+  echo $FILE1
+<span style=color:#f92672>)</span>
+
+<span style=color:#75715e># will NOT be successful</span>
+echo $FILE1
+</code></pre></div><h2 id=functions>Functions
+<a class=anchor href=#functions>#</a></h2><p>Functions, as one might expect, make the code more readable and allow us to
+reuse code blocks with slightly different arguments.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>open<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span> in
+        *.mp3|*.ogg|*.wav|*.flac|*.wma<span style=color:#f92672>)</span> mpv <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span>;;
+        *.jpg|*.gif|*.png|*.bmp<span style=color:#f92672>)</span>        gwenview <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span>;;
+        *.avi|*.mpg|*.mp4|*.wmv<span style=color:#f92672>)</span>        mpv <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span>;;
+    <span style=color:#66d9ef>esac</span>
+<span style=color:#f92672>}</span>
+<span style=color:#66d9ef>for</span> file; <span style=color:#66d9ef>do</span>
+    open <span style=color:#e6db74>&#34;</span>$file<span style=color:#e6db74>&#34;</span>
+<span style=color:#66d9ef>done</span>
+</code></pre></div><p>When a function is executed, the arguments given become positional parameters.
+The name of the function is the first element of <code>FUNCNAME</code> while the function
+is executing.</p><h2 id=parameters>Parameters
+<a class=anchor href=#parameters>#</a></h2><h2 id=builtin-commands>Builtin Commands
+<a class=anchor href=#builtin-commands>#</a></h2><p>Several built-in commands are used to assist in declaration, I/O, control, and configuration.</p><h3 id=declaration-commands>Declaration Commands
+<a class=anchor href=#declaration-commands>#</a></h3><ul><li><code>declare</code></li><li><code>local</code></li><li><code>set</code> and <code>unset</code></li><li><code>shift</code></li><li><code>readonly</code></li><li><code>eval</code></li><li><code>export</code></li></ul><h3 id=io>I/O
+<a class=anchor href=#io>#</a></h3><ul><li><code>read</code></li><li><code>mapfile</code></li><li><code>coproc</code></li><li><code>printf</code></li><li><code>echo</code></li></ul><h3 id=misc>Misc
+<a class=anchor href=#misc>#</a></h3><ul><li><code>exec</code></li><li><code>trap</code></li><li><code>wait</code></li></ul><h2 id=builtin-shell-variables>Builtin Shell Variables
+<a class=anchor href=#builtin-shell-variables>#</a></h2><hr><p><a href=https://wiki.ubuntu.com/DashAsBinSh>https://wiki.ubuntu.com/DashAsBinSh</a></p><section class=footnotes role=doc-endnotes><hr><ol><li id=fn:1 role=doc-endnote><p>C&rsquo;mon, who uses white spaces in file and directory names in Linux? Okay,
+I know I don&rsquo;t but not everyone is averse to using white spaces in file and
+directory names, especially people who come from a Windows background.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2 role=doc-endnote><p>You can still write sh compatible scripts while using bash if you use <code>set -o posix</code>. Or, just install dash, symlink <code>/bin/sh</code> to it, and use
+<code>#!/bin/sh</code>.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3 role=doc-endnote><p><a href=https://catonmat.net/bash-one-liners-explained-part-one>Part 1</a>, <a href=https://catonmat.net/bash-one-liners-explained-part-two>Part
+2</a>, and <a href=https://catonmat.net/bash-one-liners-explained-part-three>Part
+3</a>.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></section></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/ayushnix/wiki/commit/e7675dd4afdff23931ea7c76101a1186c2d03db5 title="Last modified by Ayush Agarwal | May 31, 2021" target=_blank rel=noopener><img src=/wiki/svg/calendar.svg class=book-icon alt=Calendar>
+<span>May 31, 2021</span></a></div></div><script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#linter-formatter-and-testing>Linter, Formatter, and Testing</a></li><li><a href=#shell-strict-mode>Shell Strict Mode</a><ul><li><a href=#set--e>set -e</a></li><li><a href=#set--u>set -u</a></li><li><a href=#set--o-pipefail>set -o pipefail</a></li><li><a href=#set--c>set -C</a></li><li><a href=#trap>trap</a></li></ul></li><li><a href=#style-guide>Style Guide</a><ul><li><a href=#general-recommendations>General Recommendations</a></li><li><a href=#avoid-this>Avoid This</a></li></ul></li></ul></li><li><a href=#posix-sh>POSIX sh</a></li><li><a href=#bash>bash</a><ul><li><a href=#control-operators>Control Operators</a></li><li><a href=#redirections>Redirections</a></li><li><a href=#here-documents>Here Documents</a></li><li><a href=#conditional-constructs>Conditional Constructs</a><ul><li><a href=#conditional-expression>Conditional Expression</a></li><li><a href=#if-then-else>if then else</a></li><li><a href=#case>case</a></li></ul></li><li><a href=#looping-constructs>Looping Constructs</a></li><li><a href=#group-commands>Group Commands</a></li><li><a href=#functions>Functions</a></li><li><a href=#parameters>Parameters</a></li><li><a href=#builtin-commands>Builtin Commands</a><ul><li><a href=#declaration-commands>Declaration Commands</a></li><li><a href=#io>I/O</a></li><li><a href=#misc>Misc</a></li></ul></li><li><a href=#builtin-shell-variables>Builtin Shell Variables</a></li></ul></li></ul></nav></div></aside></main></body></html>
