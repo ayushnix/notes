@@ -77,7 +77,13 @@ bothers to highlight serious issues with the Linux desktop, this is my attempt t
   resume and [here's](https://paste.ack.tf/30e9c0) one with a successful resume with kernel version
   5.10.23.
 
-- my system keeps crashing randomly
+- [17th May 2021] Since the past few weeks, my Thinkpad E495 with AMD 3500U CPU keeps
+  [crashing](https://bugzilla.kernel.org/show_bug.cgi?id=201957) in the middle of my work and I have
+  to do hard reboots. This is most probably an [AMDGPU
+  issue](https://bbs.archlinux.org/viewtopic.php?id=266358), going back all the way to 2018 or maybe
+  earlier. But hey, I'm not supposed to complain.  What's more, if you do complain, people will just
+  say "it works like a charm for me" and try to make it either your fault or say that your hardware
+  is faulty.
 
   Seriously, I can't reproduce it but it happens enough that I sometimes want to flip my table. I
   tried using the LTS kernel 5.10.23 to 5.10.41 but that's basically broken. I get stack traces,
@@ -132,13 +138,6 @@ bothers to highlight serious issues with the Linux desktop, this is my attempt t
   [this](https://github.com/tpope/vim-vinegar/issues/13). Hey, for all I know, NERDTree is indeed
   bloat and shitty.
 
-- [17th May 2021] Since the past few weeks, my Thinkpad E495 with AMD 3500U CPU keeps
-  [crashing](https://bugzilla.kernel.org/show_bug.cgi?id=201957) in the middle of my work and I have
-  to do hard reboots. This is most probably an [AMDGPU
-  issue](https://bbs.archlinux.org/viewtopic.php?id=266358), going back all the way to 2018 or maybe
-  earlier. But hey, I'm not supposed to complain.  What's more, if you do complain, people will just
-  say "it works like a charm for me" and try to make it either your fault or say that your hardware
-  is faulty.
 
 ## Fixed After Considerable Distress
 
